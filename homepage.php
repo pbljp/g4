@@ -61,7 +61,7 @@ function element($login_user_id,$end_date, $num){
               }
               else{
                       array_push($j1, 0);
-                                                      $j++;
+                      $j++;
                                                                               }
       }
    }
