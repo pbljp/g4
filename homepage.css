@@ -1,0 +1,10 @@
+#before {
+    color:red;
+    position:relative;
+    left:400px;
+}
+
+#next{
+    position:relative;
+    left:700px;
+}
