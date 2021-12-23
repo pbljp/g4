@@ -2,12 +2,21 @@
 session_start();
 
 if(!(isset($_SESSION['date']))){
-      $today = new DateTime();
-      $date = $today->format('Y-m-d');
-      $_SESSION['date']=$date;
+   $today = new DateTime();
+   $date = $today->format('Y-m-d');
+   $_SESSION['date']=$date;
 }
 else{
-        $date = $_SESSION['date'];
+   $date = $_SESSION['date'];
+}
+
+//2021/12/20追加
+if(!(isset($_SESSION['login_user_id']))){
+   $login_user_id="user_example2";
+   $_SESSION['login_user_id']=$login_user_id;
+}
+else{
+   $login_user_id=$_SESSION['login_user_id'];
 }
 
 $month = (new DateTime($date))->format('m');
@@ -25,7 +34,6 @@ $year = intval($year);
 <script type="text/javascript" src="http://zeptojs.com/zepto.min.js"></script>
 <script type="text/javascript">
 </script>
-<!-- php-jsonをインストール--!>
 
 <?php
 function element($login_user_id,$end_date, $num){
@@ -33,7 +41,7 @@ function element($login_user_id,$end_date, $num){
    global $month;
    global $year;
    #データベース接続
-   $con = mysqli_connect('ホスト名','ユーザ名','');//各自変更してください
+   $con = mysqli_connect('ホスト名','ユーザ名','');
    mysqli_select_db($con, "データベース名");
    $data = mysqli_query($con, 'SELECET * FROM types');
    $db = mysqli_fetch_all($data);
@@ -43,50 +51,49 @@ function element($login_user_id,$end_date, $num){
    $j1=[];
 
    while($item = mysqli_fetch_array($work)){
-      $user_id = $item['user_id'];
-      $sum = $item['s'];
-      $d = $item['st'];
-      $junre=$item['type_number'];
-      $date_db = new DateTime($d);
-      $mon=$item['month'];
-      $date_d = $date_db->format('d');
-      $date_d = intval($date_d);
-
+   $user_id = $item['user_id'];
+   $sum = $item['s'];
+   $d = $item['st'];
+   $junre=$item['type_number'];
+   $date_db = new DateTime($d);
+   $mon=$item['month'];
+   $date_d = $date_db->format('d');
+   $date_d = intval($date_d);
       while(($junre==$num)){
-              if($date_d == $j){
-                      $sum=intval($sum);
-                      array_push($j1, $sum);
-                      $j++;
-                      break;
-              }
-              else{
-                      array_push($j1, 0);
-                      $j++;
-                                                                              }
+         if($date_d == $j){
+            $sum=intval($sum);
+            array_push($j1, $sum);
+            $j++;
+            break;
+         }
+         else{
+            array_push($j1, 0);
+            $j++;
+         }
       }
    }
+
    for($k=$j; $k<=$end_date; $k++){
-         array_push($j1, 0);
+      array_push($j1, 0);
    }
    mysqli_close($con);
    return $j1;
 }
 
 
-$login_user_id='user_example2';
 $end_date =  (new DateTimeImmutable($date))->modify('last day of')->format('d'); // 2021-03-31
 $end_date = intval($end_date);
 
 
 #データベース接続
 $name_array=[]; #ジャンルの名前を格納
-$con_junre = mysqli_connect('ホスト', 'ユーザ名', '');//各自変更してください
+$con_junre = mysqli_connect('ホスト名', 'ユーザ名', '');
 mysqli_select_db($con_junre, "データベース名");
 mysqli_set_charset($con_junre, "utf8");
 $junre_name=mysqli_query($con_junre, "SELECT * FROM types WHERE user_id='$login_user_id'");
 while($name=mysqli_fetch_array($junre_name)){
    array_push($name_array, $name['type_name']);
-   }
+}
 
 mysqli_close($con_junre);
 
@@ -107,7 +114,7 @@ $junre3=json_encode($j3);
 $date=json_encode($date);
 ?>
 
-<!--グラフ表示--!>
+<!--グラフ表示-->
 <script src="https://code.highcharts.com/highcharts.js"></script>
 <script type="text/javascript">
 const junre1 = <?php echo $junre1; ?>;
@@ -129,6 +136,11 @@ const date_title = <?php echo $date_title; ?>;
 <button onclick="location.href='homepage.php'">作業時間を見る</button>
 <div align="right">
 <button onclick="location.href='homepage.php'" align="right">作業時間を入力</button>
+</div>
+
+<!--2021/12/19追記(遷移先を変更)-->
+<div align="ranking">
+<button onclick="location.href='change_today.php'">他のユーザーの作業時間を見る</button>
 </div>
 
 <div id = "date"></div>
