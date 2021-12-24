@@ -6,7 +6,7 @@ function h($value) {
 
 /*DBの接続 */
 function dbconnect() {
-    $db = new mysqli('localhost:8889', 'root', 'root', 'mydb_new');
+    $db = new mysqli('localhost:', 'root', '', 'g4');
 	if (!$db) {
 		die($db->error);
 	}
