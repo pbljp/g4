@@ -26,6 +26,12 @@ else{
    $another_user_id = $_GET['login_user_id'];
 }
 
+//任意の年月へ飛ぶ用のGET処理(2022/01/04)
+if((isset($_GET['login_user_id'])) && (isset($_GET['date'])) && (isset($_GET['jump']))){
+   $another_user_id = $_GET['login_user_id'];
+   $date = $_GET['date'];
+}
+
 $month = (new DateTime($date))->format('m');
 $year = (new DateTime($date))->format('Y');
 $date_title = (new DateTime($date))->format('Y-m');
@@ -41,6 +47,7 @@ $year = intval($year);
 <script type="text/javascript" src="http://zeptojs.com/zepto.min.js"></script>
 <script type="text/javascript">
 </script>
+<!-- php-jsonをインストール-->
 
 <?php
 function element($another_user_id,$end_date, $num){
@@ -89,7 +96,7 @@ function element($another_user_id,$end_date, $num){
               else{
                       array_push($j1, 0);
                       $j++;
-                                                                              }
+              }
       }
    }
    for($k=$j; $k<=$end_date; $k++){
@@ -99,11 +106,8 @@ function element($another_user_id,$end_date, $num){
    return $j1;
 }
 
-
-
 $end_date =  (new DateTimeImmutable($date))->modify('last day of')->format('d'); // 2021-03-31
 $end_date = intval($end_date);
-
 
 #データベース接続
 $name_array=[]; #ジャンルの名前を格納
@@ -155,11 +159,18 @@ const date_title = <?php echo $date_title; ?>;
 
 </head>
 
-
 <body>
    <h1>勤怠管理システム</h1>
    <div id = "date"></div>
    <a href="change_today.php">閲覧リストに戻る</a><br>
+   <a href="session_delete.php">ホームページに戻る</a><br>
+
+   <!--任意の年月へ遷移-->
+   <form action="anotherUser_worktime.php" method="GET">
+      <input type="hidden" name="login_user_id" value=<?php echo $another_user_id ?>>
+      任意の年月を選択：<input type="month" name="date">
+      <input type="submit" name="jump" value="ページに進む">
+   </form>
    <label id="before"><a href="before_month_anotherUser.php?login_user_id=<?php echo $another_user_id ?>"><span>前の月へ</span><span class="material-icons">navigate_before</span></a>
    </label>
    <label>
