@@ -15,3 +15,7 @@ next_month_anotherUser.php：他ユーザーの来月のデータを処理<br>
 ranking.php：ランキングを表示するページ<br>
 ranking.css：ランキング画面のデザイン<br>
 change_today.php：今日の日付に変更処理を行う<br>
+
+1/7追加分<br>
+popup.php：先週の平均作業時間をポップアップで表示<br>
+session_delete.php：セッション変数を削除<br>
