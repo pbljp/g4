@@ -1,15 +1,24 @@
 <?php
 session_start();
 
+$today= (new DateTime())-> format('2022-1-10');
+date('W', strtotime($today));
+
 if(!(isset($_SESSION['date']))){
    $today = new DateTime();
    $date = $today->format('Y-m-d');
    $_SESSION['date']=$date;
+   //ポップアップを表示
+   require("popup.php");
 }
 else{
    $date = $_SESSION['date'];
 }
 
+//1228 仮処理追加
+if($_POST['jump']){
+   $date = $_POST['date'];
+}
 //2021/12/20追加
 if(!(isset($_SESSION['login_user_id']))){
    $login_user_id="user_example2";
@@ -144,7 +153,12 @@ const date_title = <?php echo $date_title; ?>;
 </div>
 
 <div id = "date"></div>
-
+<!--1228追加-->
+<form action="homepage.php" method="POST">
+   <br>
+   任意の年月を選択：<input type="month" name="date">
+   <input type="submit" name = "jump" value="ページに進む">
+</form>
 <label id="before"><a href="before_month.php"><span>前の月へ</span><span class="material-icons">navigate_before</span></a>
 </label>
 <label>

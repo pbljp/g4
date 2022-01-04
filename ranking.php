@@ -7,6 +7,14 @@ if(isset($_SESSION['login_user_id'])){
 else{
    echo "値がセットされていません";
 }
+
+//dateのセッションをチェック
+if(isset($_SESSION['date'])){
+   //今のところ特になし
+}
+else{
+   //なし
+}
 ?>
 
 <!DOCTYPE html>
@@ -18,7 +26,7 @@ else{
 
 <body>
    <h1>ユーザー作業時間閲覧</h1>
-   <a href="homepage.php">ホームページに戻る</a><br>
+   <a href="session_delete.php">ホームページに戻る</a><br>
    <h3>ランキング</h3>
 
    <!--ランキングテーブル作成-->
