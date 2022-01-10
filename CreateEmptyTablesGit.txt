@@ -1,0 +1,50 @@
+BEGIN;
+DROP TABLE IF EXISTS work;
+DROP TABLE IF EXISTS types;
+DROP TABLE IF EXISTS users;
+COMMIT;
+
+BEGIN;
+CREATE TABLE IF NOT EXISTS users (
+    user_id VARCHAR(20) NOT NULL,
+    encrypted_password VARCHAR(64) NOT NULL,
+    is_public  BIT(1) NOT NULL DEFAULT b'0',
+    is_deleted BIT(1) NOT NULL DEFAULT b'0',
+    PRIMARY KEY(user_id)
+);
+
+CREATE TABLE IF NOT EXISTS types (
+    user_id VARCHAR(20) NOT NULL,
+    type_number TINYINT UNSIGNED NOT NULL,
+    type_name VARCHAR(20),
+    INDEX user_id_index (user_id),
+    INDEX type_number_index (type_number),
+    PRIMARY KEY(user_id, type_number),
+    FOREIGN KEY(user_id)
+        REFERENCES users(user_id)
+        ON UPDATE RESTRICT
+        ON DELETE RESTRICT
+);
+
+CREATE TABLE IF NOT EXISTS work (
+    work_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    user_id VARCHAR(20) NOT NULL,
+    type_number TINYINT UNSIGNED NOT NULL,
+    start_time DATETIME NOT NULL,
+    finish_time DATETIME NOT NULL,
+    working_minutes SMALLINT UNSIGNED NOT NULL,
+    comment TEXT,
+    picture_name TEXT,
+    motivation TINYINT UNSIGNED NOT NULL,
+    is_deleted BIT(1) NOT NULL DEFAULT b'0',
+    PRIMARY KEY(work_id),
+    FOREIGN KEY(user_id)
+        REFERENCES users(user_id)
+        ON UPDATE RESTRICT
+        ON DELETE RESTRICT,
+    FOREIGN KEY(type_number)
+        REFERENCES types(type_number)
+        ON UPDATE RESTRICT
+        ON DELETE RESTRICT
+);
+COMMIT;

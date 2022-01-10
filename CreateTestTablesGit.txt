@@ -1,0 +1,139 @@
+BEGIN;
+DROP TABLE IF EXISTS work;
+DROP TABLE IF EXISTS types;
+DROP TABLE IF EXISTS users;
+COMMIT;
+
+BEGIN;
+CREATE TABLE IF NOT EXISTS users (
+    user_id VARCHAR(20) NOT NULL,
+    encrypted_password VARCHAR(64) NOT NULL,
+    is_public  BIT(1) NOT NULL DEFAULT b'0',
+    is_deleted BIT(1) NOT NULL DEFAULT b'0',
+    PRIMARY KEY(user_id)
+);
+
+CREATE TABLE IF NOT EXISTS types (
+    user_id VARCHAR(20) NOT NULL,
+    type_number TINYINT UNSIGNED NOT NULL,
+    type_name VARCHAR(20),
+    INDEX user_id_index (user_id),
+    INDEX type_number_index (type_number),
+    PRIMARY KEY(user_id, type_number),
+    FOREIGN KEY(user_id)
+        REFERENCES users(user_id)
+        ON UPDATE RESTRICT
+        ON DELETE RESTRICT
+);
+
+CREATE TABLE IF NOT EXISTS work (
+    work_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    user_id VARCHAR(20) NOT NULL,
+    type_number TINYINT UNSIGNED NOT NULL,
+    start_time DATETIME NOT NULL,
+    finish_time DATETIME NOT NULL,
+    working_minutes SMALLINT UNSIGNED NOT NULL,
+    comment TEXT,
+    picture_name TEXT,
+    motivation TINYINT UNSIGNED NOT NULL,
+    is_deleted BIT(1) NOT NULL DEFAULT b'0',
+    PRIMARY KEY(work_id),
+    FOREIGN KEY(user_id)
+        REFERENCES users(user_id)
+        ON UPDATE RESTRICT
+        ON DELETE RESTRICT,
+    FOREIGN KEY(type_number)
+        REFERENCES types(type_number)
+        ON UPDATE RESTRICT
+        ON DELETE RESTRICT
+);
+COMMIT;
+
+BEGIN;
+INSERT INTO users 
+	(user_id, encrypted_password)
+	VALUES('user_example2', 'scv2nkjdfsilkds');
+INSERT INTO types
+        (user_id, type_number, type_name)
+        VALUES('user_example2', 1, '勉強');
+INSERT INTO types
+        (user_id, type_number, type_name)
+        VALUES('user_example2', 2, '部活');
+INSERT INTO types
+        (user_id, type_number, type_name)
+        VALUES('user_example2', 3, 'バイト');
+
+INSERT INTO users 
+	(user_id, encrypted_password)
+	VALUES('UserID3', 'm3jcxjbi3qscfsd');
+INSERT INTO types
+        (user_id, type_number, type_name)
+        VALUES('UserID3', 1, 'ゲーム');
+INSERT INTO types
+        (user_id, type_number, type_name)
+        VALUES('UserID3', 2, '昼寝');
+INSERT INTO types
+        (user_id, type_number, type_name)
+        VALUES('UserID3', 3, '食事');
+
+INSERT INTO work
+        (user_id, type_number, start_time, finish_time, working_minutes, comment, motivation, picture_name)
+        VALUES('user_example2', 1, '2021-11-14 12:45:00', '2021-11-14 13:45:00', 60, NULL, 2, '210518112345benkyou.jpg');
+INSERT INTO work
+        (user_id, type_number, start_time, finish_time, working_minutes, comment, motivation, picture_name)
+        VALUES('UserID3', 3, '2021-11-14 13:00:00', '2021-11-14 14:00:00', 60, '今日は頑張った', 3, NULL);
+INSERT INTO work
+        (user_id, type_number, start_time, finish_time, working_minutes, comment, motivation, picture_name)
+        VALUES('user_example2', 1, '2021-11-13 09:20:00', '2021-11-13 12:00:00', 160, 'これくらい問題解きました', 4, '210518116367mondai.png');
+INSERT INTO work
+        (user_id, type_number, start_time, finish_time, working_minutes, comment, motivation, picture_name)
+        VALUES('user_example2', 1, '2021-11-13 14:13:00', '2021-11-13 14:35:00', 22, NULL, 4, NULL);
+INSERT INTO work
+        (user_id, type_number, start_time, finish_time, working_minutes, comment, motivation, picture_name)
+        VALUES('user_example2', 1, '2021-11-13 04:00:00', '2021-11-13 06:03:00', 123, '早朝の勉強', 4, '210518116333souchou.png');
+INSERT INTO work
+        (user_id, type_number, start_time, finish_time, working_minutes, comment, motivation, picture_name)
+        VALUES('user_example2', 1, '2021-11-13 08:00:00', '2021-11-13 08:30:00', 30, NULL, 1, NULL);
+INSERT INTO work
+        (user_id, type_number, start_time, finish_time, working_minutes, comment, motivation, picture_name)
+        VALUES('user_example2', 1, '2021-11-12 13:00:00', '2021-11-12 14:30:00', 90, NULL, 5, NULL);
+INSERT INTO work
+        (user_id, type_number, start_time, finish_time, working_minutes, comment, motivation, picture_name)
+        VALUES('user_example2', 1, '2021-11-12 08:00:00', '2021-11-12 08:30:00', 30, NULL, 1, NULL);
+INSERT INTO work
+        (user_id, type_number, start_time, finish_time, working_minutes, comment, motivation, picture_name)
+        VALUES('user_example2', 1, '2021-11-11 08:00:00', '2021-11-11 08:25:00', 25, NULL, 3, NULL);
+INSERT INTO work
+        (user_id, type_number, start_time, finish_time, working_minutes, comment, motivation, picture_name)
+        VALUES('user_example2', 1, '2021-11-09 08:00:00', '2021-11-09 08:30:00', 30, NULL, 4, NULL);
+INSERT INTO work
+        (user_id, type_number, start_time, finish_time, working_minutes, comment, motivation, picture_name)
+        VALUES('user_example2', 3, '2021-11-09 20:00:00', '2021-11-09 23:59:00', 59, NULL, 5, NULL);
+INSERT INTO work
+        (user_id, type_number, start_time, finish_time, working_minutes, comment, motivation, picture_name)
+        VALUES('user_example2', 2, '2021-11-08 12:00:00', '2021-11-13 14:30:00', 150, NULL, 2, NULL);
+INSERT INTO work
+        (user_id, type_number, start_time, finish_time, working_minutes, comment, motivation, picture_name)
+        VALUES('user_example2', 1, '2021-11-13 18:00:00', '2021-11-13 19:35:00', 95, NULL, 3, NULL);
+INSERT INTO work
+        (user_id, type_number, start_time, finish_time, working_minutes, comment, motivation, picture_name)
+        VALUES('user_example2', 3, '2021-11-07 12:00:00', '2021-11-07 15:32:00', 212, NULL, 1, NULL);
+INSERT INTO work
+        (user_id, type_number, start_time, finish_time, working_minutes, comment, motivation, picture_name)
+        VALUES('user_example2', 2, '2021-11-13 08:00:00', '2021-11-13 08:30:00', 30, NULL, 2, NULL);
+INSERT INTO work
+        (user_id, type_number, start_time, finish_time, working_minutes, comment, motivation, picture_name)
+        VALUES('user_example2', 2, '2021-11-05 12:30:00', '2021-11-05 15:30:00', 180, '', 4, '');
+INSERT INTO work
+        (user_id, type_number, start_time, finish_time, working_minutes, comment, motivation, picture_name)
+        VALUES('user_example2', 2, '2021-11-05 23:15:00', '2021-11-05 23:30:00', 15, NULL, 3, NULL);
+INSERT INTO work
+        (user_id, type_number, start_time, finish_time, working_minutes, comment, motivation, picture_name)
+        VALUES('user_example2', 1, '2021-11-16 02:00:00', '2021-11-16 04:00:00', 120, NULL, 5, NULL);
+INSERT INTO work
+        (user_id, type_number, start_time, finish_time, working_minutes, comment, motivation, picture_name)
+        VALUES('user_example2', 1, '2021-11-23 07:00:00', '2021-11-23 08:00:00', 60, NULL, 4, NULL);
+INSERT INTO work
+        (user_id, type_number, start_time, finish_time, working_minutes, comment, motivation, picture_name)
+        VALUES('user_example2', 3, '2021-11-31 09:00:00', '2021-11-31 12:00:00', 180, NULL, 2, NULL);
+COMMIT;
