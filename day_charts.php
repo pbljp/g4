@@ -18,7 +18,7 @@
     $user_id = $_SESSION['user_id'];
 
     //指定された日付の全部の作業のジャンル番号・開始時間・終了時間を取得
-    $sql  = "SELECT type_number, start_time, finish_time FROM work WHERE user_id=? AND YEAR(start_time)=? AND MONTH(start_time)=? AND DAY(start_time)=?";
+    $sql  = "SELECT type_number, start_time, finish_time FROM work WHERE user_id=? AND YEAR(start_time)=? AND MONTH(start_time)=? AND DAY(start_time)=? AND is_deleted=b'0'";
     if($stmt = $mysqli->prepare($sql)) {
         $stmt->bind_param("siii", $user_id, $year, $month, $day);
         $stmt->execute();
