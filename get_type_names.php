@@ -10,7 +10,6 @@
     $sql  = "SELECT type_number, type_name FROM types WHERE user_id=?";
     if($stmt = $mysqli->prepare($sql)) {
         $user_id = $_SESSION['user_id'];
-        $user_id = "user_example2"; //デバッグ用
         $stmt->bind_param("s", $user_id);
         $stmt->execute();
         $stmt->bind_result($type_number, $type_name);

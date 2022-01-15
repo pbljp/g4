@@ -16,7 +16,6 @@
     $day   = intval($date->format('d'));
 
     $user_id = $_SESSION['user_id'];
-    $user_id = "user_example2"; //デバッグ用，忘れず消すこと！
 
     //指定された日付の全部の作業のジャンル番号・開始時間・終了時間を取得
     $sql  = "SELECT type_number, start_time, finish_time FROM work WHERE user_id=? AND YEAR(start_time)=? AND MONTH(start_time)=? AND DAY(start_time)=?";
