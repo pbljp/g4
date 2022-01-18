@@ -78,11 +78,15 @@
 </head>
 
 <body>
-    <div id="container"></div>
+    <?php require("header.php");?>
+    <div class="page">
+        <div id="container"></div>
 
-    <form action="" method="POST">
-        表示する日付：<input type="date" name="date" value="<?php echo $date->format('Y-m-d');?>">&emsp;
-        <input type="submit" value="グラフ更新"><br>
-    </form>
+        <form action="" method="POST">
+            表示する日付：<input type="date" name="date" value="<?php echo $date->format('Y-m-d');?>">&emsp;
+            <input type="submit" value="グラフ更新"><br>
+        </form>
+    </div>
+    <br>1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>
 </body>
 </html>

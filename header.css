@@ -1,0 +1,49 @@
+.material-icons-outlined{
+    font-size: 40px;
+}
+body {
+    margin: 0px;
+    padding: 0px;
+}
+.page{
+    margin-top: 100px;
+    z-index: 0;
+}
+.site-header{
+    background:rgb(0, 132, 255);
+    padding: 0px 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    margin: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    z-index: 10;
+}
+.gnav{
+}
+.menu{
+    display: flex;
+    list-style: none;
+    padding-left: 0;
+}
+.menu_item{
+    padding-right: 20px;
+}
+.menu_item a{
+    color:rgb(0, 0, 0);
+}
+.logout{
+    display: flex;
+    align-items: center;
+    list-style: none;
+    padding-left: 0;
+    padding-right: 40px;
+}
+.logout_item{
+}
+.logout_item a{
+    color:rgb(0, 0, 0);
+    padding-right: 20px;
+}

@@ -39,6 +39,12 @@ document.addEventListener('DOMContentLoaded', function () {
   legend: {
     enabled: false
   },
+  tooltip: {
+    formatter: function(){
+      var s = Highcharts.dateFormat('%H:%M', this.x) + '～' + Highcharts.dateFormat('%H:%M', this.x2);
+      return s;
+    }
+  },
   series: [{
     name: '全てのジャンル名を表示',
     // pointPadding: 0,
