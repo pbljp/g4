@@ -38,13 +38,6 @@
         ];
     }
     $data_json = json_encode($data);
-    /*
-    デバッグ用
-    foreach($data[0] as $key => $value){
-        echo $key.":".$value;
-    }
-    echo $data_json;
-    */
     
     $stmt->close();
     $mysqli->close();
@@ -52,41 +45,40 @@
 
 <!DOCTYPE html>
 <html lang="ja">
-<head>
-    <meta charset="UTF-8"/>
-    <title>日毎の記録</title>
+    <head>
+        <meta charset="UTF-8"/>
+        <title>日毎の記録</title>
 
-    <script type="text/javascript">
-        const year  = <?php echo $year;?>;
-        const month = <?php echo $month;?>;
-        const day   = <?php echo $day;?>;
-        const type1_name = '<?php echo $type_names[1];?>';
-        const type2_name = '<?php echo $type_names[2];?>';
-        const type3_name = '<?php echo $type_names[3];?>';
-        const data_json  =  <?php echo $data_json;?>;
+        <script type="text/javascript">
+            const year  = <?php echo $year;?>;
+            const month = <?php echo $month;?>;
+            const day   = <?php echo $day;?>;
+            const type1_name = '<?php echo $type_names[1];?>';
+            const type2_name = '<?php echo $type_names[2];?>';
+            const type3_name = '<?php echo $type_names[3];?>';
+            const data_json  =  <?php echo $data_json;?>;
 
-        console.log(data_json);
-    </script>
+            console.log(data_json);
+        </script>
 
-    <link href="day_charts.css" rel="stylesheet">
-    <script type="text/javascript" src="http://zeptojs.com/zepto.min.js"></script>
-    <script src="https://code.highcharts.com/highcharts.js"></script>
-    <script src="https://code.highcharts.com/modules/xrange.js"></script>
-    <script src="https://code.highcharts.com/modules/exporting.js"></script>
-    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
-    <script src="day_charts.js"></script>
-</head>
+        <link href="day_charts.css" rel="stylesheet">
+        <script type="text/javascript" src="http://zeptojs.com/zepto.min.js"></script>
+        <script src="https://code.highcharts.com/highcharts.js"></script>
+        <script src="https://code.highcharts.com/modules/xrange.js"></script>
+        <script src="https://code.highcharts.com/modules/exporting.js"></script>
+        <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+        <script src="day_charts.js"></script>
+    </head>
 
-<body>
-    <?php require("header.php");?>
-    <div class="page">
-        <div id="container"></div>
+    <body>
+        <?php require("header.php");?>
+        <main>
+            <div id="container"></div>
 
-        <form action="" method="POST">
-            表示する日付：<input type="date" name="date" value="<?php echo $date->format('Y-m-d');?>">&emsp;
-            <input type="submit" value="グラフ更新"><br>
-        </form>
-    </div>
-    <br>1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>
-</body>
+            <form action="" method="POST">
+                表示する日付：<input type="date" name="date" value="<?php echo $date->format('Y-m-d');?>">&emsp;
+                <input type="submit" value="グラフ更新"><br>
+            </form>
+        </main>
+    </body>
 </html>
