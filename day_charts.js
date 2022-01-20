@@ -2,7 +2,7 @@
 document.addEventListener('DOMContentLoaded', function () {
   //xAxisの範囲を設定するのに使う．00:00～24:00
   var xAxis_min = new Date(Date.UTC(year, month-1,   day,  0, 0));
-  var xAxis_max = new Date(Date.UTC(year, month-1, day+1,  0, 0));  
+  var xAxis_max = new Date(Date.UTC(year, month-1, day+1,  0, 0));
 
   var myChart = Highcharts.chart('container', {
   chart: {
@@ -41,11 +41,22 @@ document.addEventListener('DOMContentLoaded', function () {
   },
   tooltip: {
     formatter: function(){
-      var s = Highcharts.dateFormat('%H:%M', this.x) + '～' + Highcharts.dateFormat('%H:%M', this.x2);
+      var s = '時間：' + Highcharts.dateFormat('%H:%M', this.x) + '～' + Highcharts.dateFormat('%H:%M', this.x2);
+      //モチベーションの値だけ☆が増える
+      s += ('<br>' + 'モチベーション：');
+      for(var i = 0; i < 5; i++){
+        if(i < motivation_array[parseInt(this.point.name)]){
+          s += '☆';
+        }else{
+          s += '・';
+        }
+      }
+      s += ('<br>' + 'コメント：' + comment_array[parseInt(this.point.name)]);
       return s;
     }
   },
   series: [{
+    //縦軸が全て表示されるようにダミーデータを入れる
     name: '全てのジャンル名を表示',
     // pointPadding: 0,
     // groupPadding: 0,

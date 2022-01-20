@@ -18,26 +18,35 @@
     $user_id = $_SESSION['user_id'];
 
     //指定された日付の全部の作業のジャンル番号・開始時間・終了時間を取得
-    $sql  = "SELECT type_number, start_time, finish_time FROM work WHERE user_id=? AND YEAR(start_time)=? AND MONTH(start_time)=? AND DAY(start_time)=? AND is_deleted=b'0'";
+    $sql  = "SELECT type_number, start_time, finish_time, motivation, comment FROM work WHERE user_id=? AND YEAR(start_time)=? AND MONTH(start_time)=? AND DAY(start_time)=? AND is_deleted=b'0'";
     if($stmt = $mysqli->prepare($sql)) {
         $stmt->bind_param("siii", $user_id, $year, $month, $day);
         $stmt->execute();
-        $stmt->bind_result($type_number, $start_time, $finish_time);
+        $stmt->bind_result($type_number, $start_time, $finish_time, $motivation, $comment);
     } else {
         echo "DB接続失敗";
     }
 
     //json形式にエンコード
+    $number = 0; //SELECTで何番目に取得したデータか．
     while ($stmt->fetch()) {
         $x  = new DateTime($start_time,  new DateTimeZone('UTC'));
         $x2 = new DateTime($finish_time, new DateTimeZone('UTC'));
         $data[] = [
             "x"  => $x->getTimestamp()  * 1000,
             "x2" => $x2->getTimestamp() * 1000,
-            "y"  => $type_number-1
+            "y"  => $type_number-1,
+            //point.nameが文字列型でないとだめそう
+            //面倒だが文字列から整数に変換して用いる
+            "name" => "$number",
         ];
+        $motivation_array[] = $motivation;
+        $comment_array[] = $comment;
+        $number++;
     }
     $data_json = json_encode($data);
+    $motivation_json = json_encode($motivation_array);
+    $comment_json = json_encode($comment_array);
     
     $stmt->close();
     $mysqli->close();
@@ -57,6 +66,8 @@
             const type2_name = '<?php echo $type_names[2];?>';
             const type3_name = '<?php echo $type_names[3];?>';
             const data_json  =  <?php echo $data_json;?>;
+            const motivation_array = <?php echo $motivation_json;?>;
+            const comment_array = <?php echo $comment_json;?>;
 
             console.log(data_json);
         </script>
