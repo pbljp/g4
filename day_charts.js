@@ -42,12 +42,21 @@ document.addEventListener('DOMContentLoaded', function () {
   tooltip: {
     formatter: function(){
       var s = '時間：' + Highcharts.dateFormat('%H:%M', this.x) + '～' + Highcharts.dateFormat('%H:%M', this.x2);
-      s += ('<br>' + 'モチベーション：' + motivation_array[parseInt(this.point.name)]);
+      //モチベーションの値だけ☆が増える
+      s += ('<br>' + 'モチベーション：');
+      for(var i = 0; i < 5; i++){
+        if(i < motivation_array[parseInt(this.point.name)]){
+          s += '☆';
+        }else{
+          s += '・';
+        }
+      }
       s += ('<br>' + 'コメント：' + comment_array[parseInt(this.point.name)]);
       return s;
     }
   },
   series: [{
+    //縦軸が全て表示されるようにダミーデータを入れる
     name: '全てのジャンル名を表示',
     // pointPadding: 0,
     // groupPadding: 0,

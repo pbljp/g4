@@ -28,7 +28,7 @@
     }
 
     //json形式にエンコード
-    $number = 0;
+    $number = 0; //SELECTで何番目に取得したデータか．
     while ($stmt->fetch()) {
         $x  = new DateTime($start_time,  new DateTimeZone('UTC'));
         $x2 = new DateTime($finish_time, new DateTimeZone('UTC'));
@@ -36,6 +36,8 @@
             "x"  => $x->getTimestamp()  * 1000,
             "x2" => $x2->getTimestamp() * 1000,
             "y"  => $type_number-1,
+            //point.nameが文字列型でないとだめそう
+            //面倒だが文字列から整数に変換して用いる
             "name" => "$number",
         ];
         $motivation_array[] = $motivation;
@@ -88,8 +90,6 @@
                 表示する日付：<input type="date" name="date" value="<?php echo $date->format('Y-m-d');?>">&emsp;
                 <input type="submit" value="グラフ更新"><br>
             </form>
-
-            <?php echo $data_json;//デバッグ用?>
         </main>
     </body>
 </html>
