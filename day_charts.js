@@ -2,7 +2,7 @@
 document.addEventListener('DOMContentLoaded', function () {
   //xAxisの範囲を設定するのに使う．00:00～24:00
   var xAxis_min = new Date(Date.UTC(year, month-1,   day,  0, 0));
-  var xAxis_max = new Date(Date.UTC(year, month-1, day+1,  0, 0));  
+  var xAxis_max = new Date(Date.UTC(year, month-1, day+1,  0, 0));
 
   var myChart = Highcharts.chart('container', {
   chart: {
@@ -41,7 +41,9 @@ document.addEventListener('DOMContentLoaded', function () {
   },
   tooltip: {
     formatter: function(){
-      var s = Highcharts.dateFormat('%H:%M', this.x) + '～' + Highcharts.dateFormat('%H:%M', this.x2);
+      var s = '時間：' + Highcharts.dateFormat('%H:%M', this.x) + '～' + Highcharts.dateFormat('%H:%M', this.x2);
+      s += ('<br>' + 'モチベーション：' + motivation_array[parseInt(this.point.name)]);
+      s += ('<br>' + 'コメント：' + comment_array[parseInt(this.point.name)]);
       return s;
     }
   },
