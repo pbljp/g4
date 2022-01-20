@@ -15,6 +15,7 @@ else{
    $date = $_SESSION['date'];
 }
 
+
 //1228 仮処理追加
 if($_POST['jump']){
    $date = $_POST['date'];
@@ -33,7 +34,9 @@ $year = (new DateTime($date))->format('Y');
 $date_title = (new DateTime($date))->format('Y-m');
 $month = intval($month);
 $year = intval($year);
+$filename = basename(__FILE__);
 ?>
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -41,8 +44,6 @@ $year = intval($year);
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <link href="homepage.css" rel="stylesheet">
 <script type="text/javascript" src="http://zeptojs.com/zepto.min.js"></script>
-<script type="text/javascript">
-</script>
 
 <?php
 function element($login_user_id,$end_date, $num){
@@ -50,8 +51,8 @@ function element($login_user_id,$end_date, $num){
    global $month;
    global $year;
    #データベース接続
-   $con = mysqli_connect('ホスト名','ユーザ名','');
-   mysqli_select_db($con, "データベース名");
+   $con = mysqli_connect('localhost','root','');
+   mysqli_select_db($con, "g4");
    $data = mysqli_query($con, 'SELECET * FROM types');
    $db = mysqli_fetch_all($data);
    $work = mysqli_query($con, "SELECT user_id,  type_number, DATE(start_time) AS st, YEAR(start_time) AS year, MONTH(start_time) AS month, DAY(start_time) AS day, SUM(working_minutes) AS s  FROM work where (user_id = '$login_user_id' )AND (MONTH(start_time)='$month') AND(YEAR(start_time)='$year') GROUP BY DATE(start_time), type_number ORDER BY start_time");
@@ -93,22 +94,9 @@ function element($login_user_id,$end_date, $num){
 $end_date =  (new DateTimeImmutable($date))->modify('last day of')->format('d'); // 2021-03-31
 $end_date = intval($end_date);
 
+//2022/01/11　ジャンルネームを取得する機能を別ファイルに移動
+require("get_JunleName.php");
 
-#データベース接続
-$name_array=[]; #ジャンルの名前を格納
-$con_junre = mysqli_connect('ホスト名', 'ユーザ名', '');
-mysqli_select_db($con_junre, "データベース名");
-mysqli_set_charset($con_junre, "utf8");
-$junre_name=mysqli_query($con_junre, "SELECT * FROM types WHERE user_id='$login_user_id'");
-while($name=mysqli_fetch_array($junre_name)){
-   array_push($name_array, $name['type_name']);
-}
-
-mysqli_close($con_junre);
-
-$j1_name=json_encode($name_array[0]);
-$j2_name=json_encode($name_array[1]);
-$j3_name=json_encode($name_array[2]);
 $j1 = []; #ジャンル1の日付ごとの作業時間を格納
 $j2 = [];
 $j3 = [];
@@ -140,31 +128,37 @@ const date_title = <?php echo $date_title; ?>;
 
 
 <body>
+<main>
 <h1>勤怠管理システム</h1>
-<button onclick="location.href='homepage.php'">編集</button>
-<button onclick="location.href='homepage.php'">作業時間を見る</button>
-<div align="right">
-<button onclick="location.href='homepage.php'" align="right">作業時間を入力</button>
-</div>
+<?php require("header.php");?>
+<!--2022/01/20　ボタンを削除-->
 
 <!--2021/12/19追記(遷移先を変更)-->
 <div align="ranking">
 <button onclick="location.href='change_today.php'">他のユーザーの作業時間を見る</button>
 </div>
 
+<!--2022/01/11追記(モチベーショングラフに遷移)-->
+<div id = "motivation">
+   <a href="session_delete.php?page_no=14">モチベーショングラフを見る</a>
+</div>
+
 <div id = "date"></div>
+
 <!--1228追加-->
 <form action="homepage.php" method="POST">
    <br>
    任意の年月を選択：<input type="month" name="date">
    <input type="submit" name = "jump" value="ページに進む">
 </form>
-<label id="before"><a href="before_month.php"><span>前の月へ</span><span class="material-icons">navigate_before</span></a>
+<!--2022/01/13追加(遷移先変更)-->
+<label id="before"><a href="month_transition.php?type=before&filename=<?php echo $filename ?>"><span>前の月へ</span><span class="material-icons">navigate_before</span></a>
 </label>
 <label>
-<a href="next_month.php"><span id="next" class="material-icons">navigate_next</span><span id="next">次の月ヘ</span></a>
+<a href="month_transition.php?type=next&filename=<?php echo $filename ?>"><span id="next" class="material-icons">navigate_next</span><span id="next">次の月ヘ</span></a>
 </label>
 
 <div id = "container"></div>
+</main>
 </body>
 </html>

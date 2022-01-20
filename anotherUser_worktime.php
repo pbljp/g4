@@ -1,6 +1,6 @@
 <?php
 session_start();
-
+//2022/01/11 $another_user_id → $login_user_id に変更
 //ログインユーザのIDを取得
 if(isset($_SESSION['login_user_id'])){
    //値がセットされていればなにも行わない
@@ -20,15 +20,15 @@ else{
 
 //GETで閲覧対象のユーザIDを取得
 if(!(isset($_GET['login_user_id']))){
-   $another_user_id = $_GET['login_user_id'];
+   $login_user_id = $_GET['login_user_id'];
 }
 else{
-   $another_user_id = $_GET['login_user_id'];
+   $login_user_id = $_GET['login_user_id'];
 }
 
 //任意の年月へ飛ぶ用のGET処理(2022/01/04)
 if((isset($_GET['login_user_id'])) && (isset($_GET['date'])) && (isset($_GET['jump']))){
-   $another_user_id = $_GET['login_user_id'];
+   $login_user_id = $_GET['login_user_id'];
    $date = $_GET['date'];
 }
 
@@ -50,21 +50,21 @@ $year = intval($year);
 <!-- php-jsonをインストール-->
 
 <?php
-function element($another_user_id,$end_date, $num){
+function element($login_user_id,$end_date, $num){
 
    global $month;
    global $year;
 
    #データベース接続
-   $con = mysqli_connect('ホスト名','ユーザ名','');
-   mysqli_select_db($con, "データベース名");
+   $con = mysqli_connect('localhost','root','');
+   mysqli_select_db($con, "g4");
    $sql ="SELECT
             user_id, type_number, DATE(start_time) AS st, YEAR(start_time) AS year, MONTH(start_time) AS month,
             DAY(start_time) AS day, SUM(working_minutes) AS s
          FROM
             work
          WHERE
-            (user_id = '$another_user_id') AND
+            (user_id = '$login_user_id') AND
             (MONTH(start_time)='$month') AND
             (YEAR(start_time)='$year')
          GROUP BY
@@ -109,34 +109,18 @@ function element($another_user_id,$end_date, $num){
 $end_date =  (new DateTimeImmutable($date))->modify('last day of')->format('d'); // 2021-03-31
 $end_date = intval($end_date);
 
-#データベース接続
-$name_array=[]; #ジャンルの名前を格納
-$con_junre = mysqli_connect('ホスト名', 'ユーザ名', '');
-mysqli_select_db($con_junre, "データベース名");
-mysqli_set_charset($con_junre, "utf8");
-$sql ="SELECT
-         *
-      FROM
-         types
-      WHERE
-         (user_id='$another_user_id')";
-$junre_name=mysqli_query($con_junre, $sql);
-while($name=mysqli_fetch_array($junre_name)){
-   array_push($name_array, $name['type_name']);
-   }
+/* 2022/01/11
+ジャンルネーム取得機能を別ファイルに移動
+*/
+require("get_JunleName.php");
 
-mysqli_close($con_junre);
-
-$j1_name=json_encode($name_array[0]);
-$j2_name=json_encode($name_array[1]);
-$j3_name=json_encode($name_array[2]);
 $j1 = []; #ジャンル1の日付ごとの作業時間を格納
 $j2 = [];
 $j3 = [];
 
-$j1= element($another_user_id, $end_date, 1);
-$j2= element($another_user_id, $end_date, 2);
-$j3= element($another_user_id, $end_date, 3);
+$j1= element($login_user_id, $end_date, 1);
+$j2= element($login_user_id, $end_date, 2);
+$j3= element($login_user_id, $end_date, 3);
 $date_title =json_encode($date_title);
 $junre1=json_encode($j1);
 $junre2=json_encode($j2);
@@ -160,23 +144,25 @@ const date_title = <?php echo $date_title; ?>;
 </head>
 
 <body>
+   <main>
    <h1>勤怠管理システム</h1>
-   <div id = "date"></div>
+   <?php require("header.php");?>
    <a href="change_today.php">閲覧リストに戻る</a><br>
-   <a href="session_delete.php">ホームページに戻る</a><br>
+   <!--2022/01/11 遷移消去-->>
 
    <!--任意の年月へ遷移-->
    <form action="anotherUser_worktime.php" method="GET">
-      <input type="hidden" name="login_user_id" value=<?php echo $another_user_id ?>>
+      <input type="hidden" name="login_user_id" value=<?php echo $login_user_id ?>>
       任意の年月を選択：<input type="month" name="date">
       <input type="submit" name="jump" value="ページに進む">
    </form>
-   <label id="before"><a href="before_month_anotherUser.php?login_user_id=<?php echo $another_user_id ?>"><span>前の月へ</span><span class="material-icons">navigate_before</span></a>
+   <label id="before"><a href="before_month_anotherUser.php?login_user_id=<?php echo $login_user_id ?>"><span>前の月へ</span><span class="material-icons">navigate_before</span></a>
    </label>
    <label>
-   <a href="next_month_anotherUser.php?login_user_id=<?php echo $another_user_id ?>"><span id="next" class="material-icons">navigate_next</span><span id="next">次の月ヘ</span></a>
+   <a href="next_month_anotherUser.php?login_user_id=<?php echo $login_user_id ?>"><span id="next" class="material-icons">navigate_next</span><span id="next">次の月ヘ</span></a>
    </label>
 
    <div id = "container"></div>
+   </main>
 </body>
 </html>

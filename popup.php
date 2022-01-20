@@ -19,8 +19,8 @@ $saturday = json_encode($saturday);
 $sunday = json_encode($sunday);
 
 //データベース接続
-$con_mean = mysqli_connect('ホスト名', 'ユーザ名', '');
-mysqli_select_db($con_mean, "データベース名");
+$con_mean = mysqli_connect('localhost', 'root', '');
+mysqli_select_db($con_mean, "g4");
 mysqli_set_charset($con_mean, "utf8");
 $sql="SELECT
          SUM(working_minutes) as sum

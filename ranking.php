@@ -25,8 +25,11 @@ else{
 </head>
 
 <body>
+   <main>
    <h1>ユーザー作業時間閲覧</h1>
-   <a href="session_delete.php">ホームページに戻る</a><br>
+   <?php require("header.php");?>
+   <!--2022/01/11 遷移先変更-->
+   <a href="session_delete.php?page_no=1">ホームページに戻る</a><br>
    <h3>ランキング</h3>
 
    <!--ランキングテーブル作成-->
@@ -40,8 +43,8 @@ else{
    $month = (new DateTime('2021-11-01'))->format('m');
    $year = (new DateTime('2021-11-01'))->format('Y');
    //ここでデータベース接続
-   $con = mysqli_connect('ホスト名','ユーザ名','');
-   mysqli_select_db($con, "データベース名");
+   $con = mysqli_connect('localhost','root','');
+   mysqli_select_db($con, "g4");
    //ユーザごとの今月の作業時間合計を求める(今回は11月だけ)
    //今回はis_publicは0に設定(本来は1に設定)
    $sql ="SELECT
@@ -77,5 +80,6 @@ else{
    mysqli_close($con);
    ?>
    </table>
+   </main>
 </body>
 </html>
