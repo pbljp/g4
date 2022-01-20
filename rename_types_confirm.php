@@ -16,33 +16,35 @@
 </head>
 
 <body>
-<?php
+    <?php require("header.php");?>
+    <main>
+        <table border="1"><tr><th>変更前</th><th>→</th><th>変更後</th><tr>
+            <tr><td>
+                <?php
+                    //変更前のジャンル名を列挙
+                    foreach ($type_names as $key => $value) {
+                        echo $key."：".$value."<br>";
+                    }
+                    echo "</td><td>→</td><td>";
+                    //変更後のジャンル名を列挙，変更点は赤文字
+                    foreach ($type_names as $key => $value) {
+                        if($key == $change_type_number){
+                            echo '<font color = "red">'.$key."：".$new_type_name."</font><br>";
+                        }
+                        else{
+                            echo $key."：".$value."<br>";
+                        }
+                    }
+                ?>
+            </td></tr>
+        </table><br>
 
-    echo '<table border="1"><tr><th>変更前</th><th>→</th><th>変更後</th><tr>';
-    echo "<tr><td>";
-    //変更前のジャンル名を列挙
-    foreach ($type_names as $key => $value) {
-        echo $key."：".$value."<br>";
-    }
-    echo "</td><td>→</td><td>";
-    //変更後のジャンル名を列挙，変更点は赤文字
-    foreach ($type_names as $key => $value) {
-        if($key == $change_type_number){
-            echo '<font color = "red">'.$key."：".$new_type_name."</font><br>";
-        }
-        else{
-            echo $key."：".$value."<br>";
-        }
-    }
-    echo "</td></tr></table><br>";
-?>
-
-ジャンル名を変更すると，「<?php echo $type_names[$change_type_number];?>」のこれまでの入力データは消去されます！<br>
-
-<form action="rename_types_complete.php" method="POST">
-    <input type="hidden" name="change_type_number" value="<?php echo $change_type_number;?>">
-    <input type="hidden" name="new_type_name"      value="<?php echo $new_type_name;?>">
-    <input type="submit" value="変更を確定">
-</form>
+        ジャンル名を変更すると，「<?php echo $type_names[$change_type_number];?>」のこれまでの入力データは消去されます！<br>
+        <form action="rename_types_complete.php" method="POST">
+            <input type="hidden" name="change_type_number" value="<?php echo $change_type_number;?>">
+            <input type="hidden" name="new_type_name"      value="<?php echo $new_type_name;?>">
+            <input type="submit" value="変更を確定">
+        </form>
+    </main>
 </body>
 </html>

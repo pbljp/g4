@@ -23,6 +23,8 @@
 
         $mysqli->close();
     }
+
+    require("get_type_names.php");
 ?>
 
 <!DOCTYPE html>
@@ -33,22 +35,23 @@
 </head>
 
 <body>
-<?php
+    <?php require("header.php");?>
+    <main>
+        <table border="1"><tr><th>変更後</th><tr>
+            <tr><td>
+            <?php
+                //ジャンル名を列挙
+                foreach ($type_names as $key => $value) {
+                    echo $key."：".$value."<br>";
+                }
+            ?>
+            </td></tr>
+        </table><br>
 
-    // ジャンル名を列挙
-    require("get_type_names.php");
-    echo '<table border="1"><tr><th>変更後</th><tr>';
-    echo "<tr><td>";
-    foreach ($type_names as $key => $value) {
-        echo $key."：".$value."<br>";
-    }
-    echo "</td></tr></table><br>";    
-?>
-
-<p>
-    ジャンル名が変更されました．<br>
-    <a href="homepage.php">ホームへ戻る</a>
-</p>
-
+        <p>
+            ジャンル名が変更されました．<br>
+            <a href="homepage.php">ホームへ戻る</a>
+        </p>
+    </main>
 </body>
 </html>
