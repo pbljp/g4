@@ -1,5 +1,5 @@
 .material-icons-outlined.header{
-    font-size: 40px;
+    font-size: 35px;
 }
 body {
     /* これが無いとヘッダーの端に空白ができてしまう */
@@ -9,13 +9,13 @@ body {
 main{
     display: block;
     /* ヘッダーの幅だけ上にマージンを取る */
-    margin-top: 100px;
+    margin-top: 60px;
     z-index: 0;
 }
 .site-header{
     /* TODO:松本君が用意してくれた画像に置き換える */
     background:rgb(0, 132, 255);
-    padding: 0px 20px;
+    padding: 0px 0px;
     position: fixed;
     top: 0;
     left: 0;
@@ -28,7 +28,9 @@ main{
 .menu{
     display: flex;
     list-style: none;
+    padding-top: 5px;
     padding-left: 0;
+    margin: 0;
 }
 .menu_item{
     padding-right: 20px;
@@ -44,13 +46,18 @@ main{
     display: flex;
     align-items: center;
     list-style: none;
+    padding-top: 5px;
     padding-left: 0;
-    padding-right: 40px;
+    padding-right: 0;
+    margin: 0;
+}
+.logout_item{
+    padding-left: 20px;
 }
 .logout_item a{
     /* アイコンの色，何か色を設定しないとクリックした後に色が変わってしまう */
     color:rgb(0, 0, 0);
-    padding-right: 20px;
+    /*padding-right: 20px;*/
 }
 .logout_item a:hover{
     opacity: 0.5;
