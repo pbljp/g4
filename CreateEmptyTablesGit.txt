@@ -8,6 +8,7 @@ BEGIN;
 CREATE TABLE IF NOT EXISTS users (
     user_id VARCHAR(20) NOT NULL,
     encrypted_password VARCHAR(64) NOT NULL,
+    goal_minutes SMALLINT UNSIGNED NOT NULL DEFAULT 60,
     is_public  BIT(1) NOT NULL DEFAULT b'0',
     is_deleted BIT(1) NOT NULL DEFAULT b'0',
     PRIMARY KEY(user_id)
