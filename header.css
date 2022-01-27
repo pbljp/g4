@@ -1,5 +1,6 @@
 .material-icons-outlined.header{
     font-size: 35px;
+    text-align: center;
 }
 body {
     /* これが無いとヘッダーの端に空白ができてしまう */
@@ -9,7 +10,7 @@ body {
 main{
     display: block;
     /* ヘッダーの幅だけ上にマージンを取る */
-    margin-top: 60px;
+    margin-top: 70px;
     z-index: 0;
 }
 .site-header{
@@ -36,8 +37,13 @@ main{
     padding-right: 20px;
 }
 .menu_item a{
+    display: block;
+    padding: auto;
     /* アイコンの色，何か色を設定しないとクリックした後に色が変わってしまう */
     color:rgb(0, 0, 0);
+    font-size: 5px;
+    text-align: center;
+    text-decoration: none;
 }
 .menu_item a:hover{
     opacity: 0.5;
@@ -55,9 +61,13 @@ main{
     padding-left: 20px;
 }
 .logout_item a{
+    display: block;
+    padding: auto;
     /* アイコンの色，何か色を設定しないとクリックした後に色が変わってしまう */
     color:rgb(0, 0, 0);
-    /*padding-right: 20px;*/
+    font-size: 5px;
+    text-align: center;
+    text-decoration: none;
 }
 .logout_item a:hover{
     opacity: 0.5;
