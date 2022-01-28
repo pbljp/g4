@@ -5,12 +5,12 @@
 
     require("connect_g4_db.php");
     //現在の公開設定を取得
-    $sql="SELECT is_public FROM users WHERE user_id=?";
+    $sql="SELECT is_public, goal_minutes FROM users WHERE user_id=?";
     if ($stmt = $mysqli->prepare($sql)) {
         $user_id = $_SESSION['user_id'];
         $stmt->bind_param("s", $user_id);
         $stmt->execute();
-        $stmt->bind_result($is_public);
+        $stmt->bind_result($is_public, $goal_minutes);
         $stmt->fetch();
     }
     $stmt->close();
@@ -51,7 +51,7 @@
                     foreach($type_names as $key => $value){
                         echo '<option value="'.$key.'">'.$key.'</option>';
                     }
-                ?>      
+                ?>
             </select>
             ：ジャンル名<input type="text" name="new_type_name" maxlength="20" required>
             <input type="submit" value="確認画面へ"><br>
@@ -59,7 +59,8 @@
         <form action="switch_is_public.php" method="POST">
             <input type="hidden" name="new_is_public" value="0">
             作業を公開する<input type="checkbox" name="new_is_public" value="1" <?php if($is_public){echo "checked";}?>>
-            <input type="submit" value="公開設定を保存"><br>
+            1日の目標作業時間<input type="number" name="new_goal_minutes" value="<?php echo $goal_minutes;?>">
+            <input type="submit" value="設定を保存"><br>
         </form>
     </main>
 </body>
