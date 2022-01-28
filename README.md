@@ -10,8 +10,8 @@ homepage.js： HighChartsの表示<br>
 
 12/23追加分<br>
 anotherUser_worktime.php：他ユーザーの作業時間表示<br>
-beforemonth_month_anotherUser.php：他ユーザーの先月のデータを処理<br>
-next_month_anotherUser.php：他ユーザーの来月のデータを処理<br>
+<s>beforemonth_month_anotherUser.php：他ユーザーの先月のデータを処理</s>(1/28削除)<br>
+<s>next_month_anotherUser.php：他ユーザーの来月のデータを処理</s>(1/28削除)<br>
 ranking.php：ランキングを表示するページ<br>
 ranking.css：ランキング画面のデザイン<br>
 <s>change_today.php：今日の日付に変更処理を行う</s>(1/20削除)<br>
@@ -22,6 +22,13 @@ session_delete.php：セッション変数を削除<br>
 
 1/20追加分<br>
 month_transition.php：先月・来月のデータを処理する<br>
-get_JunleName.php：ジャンルの名前を取得する<br>
+<s>get_JunleName.php：ジャンルの名前を取得する</s>(1/28削除)<br>
 motivation.php：モチベーショングラフの表示<br>
 motivation.js：モチベーショングラフのデザイン<br>
+
+1/28追加分<br>
+get_weekWorktime.php：先週・先々週の平均作業時間を算出<br>
+goal_effect.php：目標時間の進捗率に応じてエフェクトを変える<br>
+goal_homepage.php：目標時間・現在の作業時間を表示<br>
+month_transition_anotherUser.php：他ユーザの先月・来月のデータを処理<br>
+motivation.css：モチベーショングラフ、anotherUser_worktime.php用のcssファイル<br>
