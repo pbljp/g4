@@ -1,8 +1,7 @@
 <?php
 session_start();
-
+require("get_weekWorktime.php");
 $today= (new DateTime())-> format('2022-1-10');
-date('W', strtotime($today));
 
 if(!(isset($_SESSION['date']))){
    $today = new DateTime();
@@ -21,12 +20,12 @@ if($_POST['jump']){
    $date = $_POST['date'];
 }
 //2021/12/20追加
-if(!(isset($_SESSION['login_user_id']))){
-   $login_user_id="user_example2";
-   $_SESSION['login_user_id']=$login_user_id;
+if(!(isset($_SESSION['user_id']))){
+   $user_id="user_example2";
+   $_SESSION['user_id']=$user_id;
 }
 else{
-   $login_user_id=$_SESSION['login_user_id'];
+   $user_id=$_SESSION['user_id'];
 }
 
 $month = (new DateTime($date))->format('m');
@@ -35,6 +34,8 @@ $date_title = (new DateTime($date))->format('Y-m');
 $month = intval($month);
 $year = intval($year);
 $filename = basename(__FILE__);
+
+require("get_type_names.php");
 ?>
 
 <!DOCTYPE html>
@@ -42,123 +43,158 @@ $filename = basename(__FILE__);
 <head>
 <meta charset="UTF-8"/>
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+<link href="style.css" rel="stylesheet">
 <link href="homepage.css" rel="stylesheet">
 <script type="text/javascript" src="http://zeptojs.com/zepto.min.js"></script>
 
 <?php
-function element($login_user_id,$end_date, $num){
+function element($user_id,$end_date, $num){
 
    global $month;
    global $year;
    #データベース接続
-   $con = mysqli_connect('localhost','root','');
-   mysqli_select_db($con, "g4");
-   $data = mysqli_query($con, 'SELECET * FROM types');
-   $db = mysqli_fetch_all($data);
-   $work = mysqli_query($con, "SELECT user_id,  type_number, DATE(start_time) AS st, YEAR(start_time) AS year, MONTH(start_time) AS month, DAY(start_time) AS day, SUM(working_minutes) AS s  FROM work where (user_id = '$login_user_id' )AND (MONTH(start_time)='$month') AND(YEAR(start_time)='$year') GROUP BY DATE(start_time), type_number ORDER BY start_time");
 
-   $j=1;
-   $j1=[];
+   require("connect_g4_db.php");
+   $sql="SELECT
+            type_number, DATE(start_time),
+            MONTH(start_time) AS month,
+            SUM(working_minutes)
+         FROM
+            work
+         WHERE
+            (user_id = ? )AND
+            (MONTH(start_time)= ?) AND
+            (YEAR(start_time)= ?)
+         GROUP BY
+            DATE(start_time), type_number
+         ORDER BY
+            start_time";
 
-   while($item = mysqli_fetch_array($work)){
-   $user_id = $item['user_id'];
-   $sum = $item['s'];
-   $d = $item['st'];
-   $junre=$item['type_number'];
-   $date_db = new DateTime($d);
-   $mon=$item['month'];
-   $date_d = $date_db->format('d');
-   $date_d = intval($date_d);
-      while(($junre==$num)){
-         if($date_d == $j){
-            $sum=intval($sum);
-            array_push($j1, $sum);
-            $j++;
+   if($stmt = $mysqli->prepare($sql)){
+      $stmt->bind_param("sii", $user_id, $month, $year);
+      $stmt->execute();
+      $stmt->bind_result($type_no, $start_time, $month, $work_time);
+   }
+   else{
+      echo "DB接続失敗";
+   }
+
+
+   $row_no=1; //レコードの行数と対応させる
+   $data=[]; //各ジャンルの作業時間を格納するための配列
+
+   while($stmt->fetch()){
+      $start_time = intval((new DateTime($start_time))->format('d'));
+      while(($type_no==$num)){
+         if($start_time == $row_no){
+            $work_time=intval($work_time);
+            array_push($data, $work_time);
+            $row_no++; //次の行へ進む
             break;
          }
          else{
-            array_push($j1, 0);
-            $j++;
+            //該当しない場合(該当日のデータがない場合)は0を配列に格納
+            array_push($data, 0);
+            $row_no++;
          }
       }
    }
 
-   for($k=$j; $k<=$end_date; $k++){
-      array_push($j1, 0);
+   for($k=$row_no; $k<=$end_date; $k++){
+      array_push($data, 0);
    }
-   mysqli_close($con);
-   return $j1;
+
+   $stmt->close();
+   $mysqli->close();
+   return $data;
 }
 
 
 $end_date =  (new DateTimeImmutable($date))->modify('last day of')->format('d'); // 2021-03-31
 $end_date = intval($end_date);
 
-//2022/01/11　ジャンルネームを取得する機能を別ファイルに移動
-require("get_JunleName.php");
-
 $j1 = []; #ジャンル1の日付ごとの作業時間を格納
 $j2 = [];
 $j3 = [];
 
-$j1= element($login_user_id, $end_date, 1);
-$j2= element($login_user_id, $end_date, 2);
-$j3= element($login_user_id, $end_date, 3);
+$j1= element($user_id, $end_date, 1);
+$j2= element($user_id, $end_date, 2);
+$j3= element($user_id, $end_date, 3);
 $date_title =json_encode($date_title);
 $junre1=json_encode($j1);
 $junre2=json_encode($j2);
 $junre3=json_encode($j3);
+$j1_name = json_encode($type_names[1]);
+$j2_name = json_encode($type_names[2]);
+$j3_name = json_encode($type_names[3]);
 $date=json_encode($date);
 ?>
 
 <!--グラフ表示-->
 <script src="https://code.highcharts.com/highcharts.js"></script>
 <script type="text/javascript">
-const junre1 = <?php echo $junre1; ?>;
-const junre2 = <?php echo $junre2; ?>;
-const junre3 = <?php echo $junre3; ?>;
-const j1_name = <?php echo $j1_name; ?>;
-const j2_name = <?php echo $j2_name; ?>;
-const j3_name = <?php echo $j3_name; ?>;
-const date_title = <?php echo $date_title; ?>;
+   const junre1 = <?php echo $junre1; ?>;
+   const junre2 = <?php echo $junre2; ?>;
+   const junre3 = <?php echo $junre3; ?>;
+   const j1_name = <?php echo $j1_name; ?>;
+   const j2_name = <?php echo $j2_name; ?>;
+   const j3_name = <?php echo $j3_name; ?>;
+   const date_title = <?php echo $date_title; ?>;
 </script>
 <script src="homepage.js"></script>
 
 </head>
 
-
 <body>
-<main>
-<h1>勤怠管理システム</h1>
-<?php require("header.php");?>
-<!--2022/01/20　ボタンを削除-->
+   <?php require("header.php"); ?>
+   <main>
+      <div id="head">
+         <h1>勤怠管理システム</h1>
+      </div>
+      <!--2022/01/20　ボタンを削除-->
+      <!--0128 モチベーション、ランキング遷移ボタン削除-->
+      <!--2022/01/26追加-->
+      <div id="article">
+         <div class="goal">
+            <div class="goal_list">
+               <h3>今月の作業時間達成状況</h3>
+                  <?php
+                     require("goal_homepage.php");
+                  ?>
+                  <p>目標時間：<?php echo $goal_minutes; ?></p>
+                  <p>現在の作業時間：<?php echo $sum_minutes; ?></p>
+                  <?php
+                     require("goal_effect.php");
+                  ?>
+            </div>
+            <div class="goal_list">
+               <h3>週平均作業時間</h3>
+               <p>先々週の平均作業時間：<?php echo $before_mean_time; ?></p>
+               <p><?php echo $before_sunday.～.$before_saturday;?></p>
+               <p>先週の現在の作業時間: <?php echo $mean_time; ?></p>
+               <p><?php echo $sunday.～.$saturday; ?></p>
+            </div>
+         </div>
 
-<!--2021/12/19追記(遷移先を変更)-->
-<div align="ranking">
-<button onclick="location.href='change_today.php'">他のユーザーの作業時間を見る</button>
-</div>
-
-<!--2022/01/11追記(モチベーショングラフに遷移)-->
-<div id = "motivation">
-   <a href="session_delete.php?page_no=14">モチベーショングラフを見る</a>
-</div>
-
-<div id = "date"></div>
-
-<!--1228追加-->
-<form action="homepage.php" method="POST">
-   <br>
-   任意の年月を選択：<input type="month" name="date">
-   <input type="submit" name = "jump" value="ページに進む">
-</form>
-<!--2022/01/13追加(遷移先変更)-->
-<label id="before"><a href="month_transition.php?type=before&filename=<?php echo $filename ?>"><span>前の月へ</span><span class="material-icons">navigate_before</span></a>
-</label>
-<label>
-<a href="month_transition.php?type=next&filename=<?php echo $filename ?>"><span id="next" class="material-icons">navigate_next</span><span id="next">次の月ヘ</span></a>
-</label>
-
-<div id = "container"></div>
-</main>
+         <!--1228追加-->
+         <div id ="graph">
+            <form action="homepage.php" method="POST">
+               <br>
+               任意の年月を選択：<input type="month" name="date">
+               <input class="btn" type="submit" name = "jump" value="ページに進む">
+            </form>
+            <!--2022/01/13追加(遷移先変更)-->
+            <div id = "transition">
+               <label id="before">
+                  <a href="month_transition.php?type=before&filename=<?php echo $filename ?>"><span>前の月へ</span><span class="material-icons">navigate_before</span></a>
+               </label>
+               <label id="next">
+                  <a href="month_transition.php?type=next&filename=<?php echo $filename ?>"><span class="material-icons">navigate_next</span><span>次の月ヘ</span></a>
+               </label>
+            </div>
+         <div id="container"></div>
+      </div>
+   </main>
 </body>
 </html>

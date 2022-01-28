@@ -1,10 +1,44 @@
-#before {
+#article{
+    display: flex;
+ }
+ .goal{
+    display:block;
+    width:30%;
+ 
+ }
+ .goal_list{
+    box-shadow: 2px 2px 4px;
+    border-radius:10px;
+    background-color:white;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    padding:20px;
+    margin: 20px;
+ }
+ .img{
+    width:100px;
+    text-align:center;
+ }
+ #graph{
+    box-shadow: 2px 2px 4px;
+    border-radius:10px;
+    display:block;
+    width:90%;
+    background-color:white;
+    margin:20px;
+    padding:10px;
+ }
+ #transition{
+    display:flex;
+    text-align:center;
+    justify-content:center;
+ }
+ #before{
+    padding:10px;
     color:red;
-    position:relative;
-    left:400px;
-}
-
-#next{
-    position:relative;
-    left:700px;
-}
+ }
+ #next{
+    padding:10px;
+    color:red;
+ }

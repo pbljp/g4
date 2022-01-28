@@ -11,12 +11,12 @@ else{
 }
 
 
-if(!(isset($_SESSION['login_user_id']))){
-   $login_user_id="user_example2";
-   $_SESSION['login_user_id']=$login_user_id;
+if(!(isset($_SESSION['user_id']))){
+   $user_id="user_example2";
+   $_SESSION['user_id']=$user_id;
 }
 else{
-   $login_user_id=$_SESSION['login_user_id'];
+   $user_id=$_SESSION['user_id'];
 }
 
 //任意の年月からの値を取得
@@ -30,6 +30,8 @@ $date_title = (new DateTime($date))->format('Y-m');
 $month = intval($month);
 $year = intval($year);
 $filename = basename(__FILE__); //自身のファイル名を取得
+
+require("get_type_names.php");
 ?>
 
 <!DOCTYPE html>
@@ -37,72 +39,70 @@ $filename = basename(__FILE__); //自身のファイル名を取得
 <head>
 <meta charset="UTF-8">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-<link href="homepage.css" rel="stylesheet">
+<link href="motivation.css" rel="stylesheet">
+<link href="style.css" rel="stylesheet">
 <script type="text/javascript" src="http://zeptojs.com/zepto.min.js"></script>
 <script type="text/javascript">
 </script>
 
 <?php
 
-function element($login_user_id,$end_date, $num){
+function element($user_id,$end_date, $num){
 
    global $month;
    global $year;
    #データベース接続
-   $con = mysqli_connect('localhost','root','');
-   mysqli_select_db($con, "s117b");
-   $data = mysqli_query($con, 'SELECET * FROM types');
-   $db = mysqli_fetch_all($data);
+   require("connect_g4_db.php");
    $sql="SELECT
-            user_id, type_number, DATE(start_time) AS start, YEAR(start_time) AS year,
-            MONTH(start_time) AS month, DAY(start_time) AS day,
+            type_number, DATE(start_time) AS start,
+            MONTH(start_time) AS month,
             AVG(motivation) AS motivation
          FROM
             work
          WHERE
-            (user_id = '$login_user_id') AND
-            (MONTH(start_time)='$month') AND
-            (YEAR(start_time)='$year')
+            (user_id = ?) AND
+            (MONTH(start_time)= ?) AND
+            (YEAR(start_time)= ?)
          GROUP BY
             DATE(start_time), type_number
          ORDER BY
             start_time";
 
+   if($stmt = $mysqli->prepare($sql)){
+      $stmt->bind_param("sii", $user_id, $month, $year);
+      $stmt->execute();
+      $stmt->bind_result($type_no, $start_time, $month, $motivation);
+   }
+   else{
+      echo "DB接続失敗";
+   }
 
-   $work = mysqli_query($con, $sql);
+   $row_no=1;
+   $data=[];
 
-   $j=1;
-   $j1=[];
-
-   while($item = mysqli_fetch_array($work)){
-      $user_id = $item['user_id'];
-      $motivation = $item['motivation'];
-      $d = $item['start'];
-      $moti=$item['motivation'];
-      $junre=$item['type_number'];
-      $date_db = new DateTime($d);
-      $mon=$item['month'];
-      $date_d = $date_db->format('d');
-      $date_d = intval($date_d);
-      while(($junre==$num)){
-         if($date_d == $j){
+   while($stmt->fetch()){
+      $start_time = intval((new DateTime($start_time))->format('d'));
+      while(($type_no==$num)){
+         if($start_time == $row_no){
             $motivation=floatval($motivation);
-            array_push($j1, $motivation);
-            $j++;
+            array_push($data, $motivation);
+            $row_no++;
             break;
          }
          else{
-            array_push($j1, 0);
-            $j++;
+            array_push($data, 0);
+            $row_no++;
          }
       }
    }
 
-   for($k=$j; $k<=$end_date; $k++){
-      array_push($j1, 0);
+   for($k=$row_no; $k<=$end_date; $k++){
+      array_push($data, 0);
    }
-   mysqli_close($con);
-   return $j1;
+
+   $stmt->close();
+   $mysqli->close();
+   return $data;
 }
 
 
@@ -112,15 +112,17 @@ $j1 = []; #ジャンル1の日付ごとの作業時間を格納
 $j2 = [];
 $j3 = [];
 
-require("get_JunleName.php");
-$j1= element($login_user_id, $end_date, 1);
-$j2= element($login_user_id, $end_date, 2);
-$j3= element($login_user_id, $end_date, 3);
+$j1= element($user_id, $end_date, 1);
+$j2= element($user_id, $end_date, 2);
+$j3= element($user_id, $end_date, 3);
 
 $date_title =json_encode($date_title);
 $junre1=json_encode($j1);
 $junre2=json_encode($j2);
 $junre3=json_encode($j3);
+$j1_name = json_encode($type_names[1]);
+$j2_name = json_encode($type_names[2]);
+$j3_name = json_encode($type_names[3]);
 $date=json_encode($date);
 ?>
 
@@ -139,22 +141,28 @@ $date=json_encode($date);
 </head>
 
 <body>
+   <?php require("header.php"); ?>
    <main>
-   <h3>モチベーショングラフ</h3>
-   <?php require("header.php");?>
-   <a href="session_delete.php?page_no=1">ホームページに戻る</a>
-
+   <div id="head">
+      <h1>モチベーショングラフ</h1>
+   </div>
+   <a href="session_delete.php?filename=homepage.php">ホームページに戻る</a>
+   <div id="graph">
    <form action="motivation.php" method="POST">
       <br>
       任意の年月を選択：<input type="month" name="date">
       <input type="submit" name="jump" value="ページに進む">
    </form>
-   <label id="before"><a href="month_transition.php?type=before&filename=<?php echo $filename ?>"><span>前の月へ</span><span class="material-icons">navigate_before</span></a>
+   <div id="transition">
+   <label id="before">
+      <a href="month_transition.php?type=before&filename=<?php echo $filename ?>"><span>前の月へ</span><span class="material-icons">navigate_before</span></a>
    </label>
-   <label>
-   <a href="month_transition.php?type=next&filename=<?php echo $filename ?>"><span id="next" class="material-icons">navigate_next</span><span id="next">次の月ヘ</span></a>
+   <label id ="next">
+      <a href="month_transition.php?type=next&filename=<?php echo $filename ?>"><span class="material-icons">navigate_next</span><span>次の月ヘ</span></a>
    </label>
+   </div>
    <div id = "container"></div>
+   </div>
    </main>
 </body>
 </html>

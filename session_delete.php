@@ -9,27 +9,14 @@ change_today.phpと機能統合
 */
 
 session_start();
-if(isset($_SESSION['date']) && isset($_GET['page_no'])){
+if(isset($_SESSION['date']) && isset($_GET['filename'])){
    unset($_SESSION['date']);
 }
 else{
    //そもそもセットされていればなにも行わない
 }
 
-$page_no = $_GET['page_no'];
-if($page_no == 1){
-   $filename="homepage.php";
-}
-else if($page_no == 6){
-   $filename="ranking.php";
-}
-else if($page_no == 14){
-   $filename="motivation.php";
-}
-else{
-   //もし該当する番号でなければhomepage.phpに戻す
-   $filename="homepage.php";
-}
+$filename = $_GET['filename'];
 
 header("Location:$filename");
 exit();

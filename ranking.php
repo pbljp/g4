@@ -1,8 +1,8 @@
 <?php
 session_start();
 
-if(isset($_SESSION['login_user_id'])){
-   $login_user_id = $_SESSION['login_user_id'];
+if(isset($_SESSION['user_id'])){
+   $user_id = $_SESSION['user_id'];
 }
 else{
    echo "値がセットされていません";
@@ -22,15 +22,17 @@ else{
 <head>
 <meta chaset="UTF-8">
 <link rel="stylesheet" href="ranking.css"></style>
+<link rel="stylesheet" href="style.css"></style>
 </head>
-
+<div id="whole">
 <body>
+   <?php require("header.php"); ?>
    <main>
-   <h1>ユーザー作業時間閲覧</h1>
-   <?php require("header.php");?>
+      <div id="head">
+         <h1>ランキング</h1>
+      </div>
    <!--2022/01/11 遷移先変更-->
-   <a href="session_delete.php?page_no=1">ホームページに戻る</a><br>
-   <h3>ランキング</h3>
+   <a href="session_delete.php?filename=homepage.php">ホームページに戻る</a><br>
 
    <!--ランキングテーブル作成-->
    <table>
@@ -43,13 +45,12 @@ else{
    $month = (new DateTime('2021-11-01'))->format('m');
    $year = (new DateTime('2021-11-01'))->format('Y');
    //ここでデータベース接続
-   $con = mysqli_connect('localhost','root','');
-   mysqli_select_db($con, "g4");
+   require("connect_g4_db.php");
    //ユーザごとの今月の作業時間合計を求める(今回は11月だけ)
    //今回はis_publicは0に設定(本来は1に設定)
    $sql ="SELECT
-            users.user_id AS user_id, DATE(work.start_time) AS st, YEAR(work.start_time) AS year,
-            MONTH(work.start_time) AS month, DAY(work.start_time) AS day, SUM(work.working_minutes) AS sum
+            users.user_id AS user_id,
+            SUM(work.working_minutes) AS sum
          FROM
             users
          INNER JOIN
@@ -57,29 +58,37 @@ else{
          ON
             users.user_id=work.user_id
          WHERE
-            (MONTH(work.start_time)='$month') AND
-            (YEAR(work.start_time)='$year') AND
+            (MONTH(work.start_time)= ?) AND
+            (YEAR(work.start_time)= ?) AND
             (users.is_public=0) AND
             (users.is_deleted=0) AND
             (work.is_deleted=0) AND
-            (users.user_id!='$login_user_id')
+            (users.user_id!= ?)
          GROUP BY
             users.user_id
          ORDER BY
             SUM(work.working_minutes) DESC";
 
-   $result = mysqli_query($con, $sql);
-   while($id_list = mysqli_fetch_array($result)){
-      $element_id = $id_list['user_id'];
-      $work_time = $id_list['sum'];
+   if($stmt = $mysqli->prepare($sql)){
+      $stmt->bind_param("iis", $month, $year, $user_id);
+      $stmt->execute();
+      $stmt->bind_result($element_id, $work_time);
+   }
+   else{
+      echo "DB接続失敗";
+   }
+
+   if($stmt->fetch()){
       echo "<tr><td>$rank</td>";
-      echo "<td><a href='anotherUser_worktime.php?login_user_id=$element_id'>$element_id</a></td>";
+      echo "<td><a href='anotherUser_worktime.php?user_id=$element_id'>$element_id</a></td>";
       echo "<td>$work_time</td></tr>";
       $rank++; // 順位を下げる
    }
-   mysqli_close($con);
+   $stmt->close();
+   $mysqli->close();
    ?>
    </table>
    </main>
+   </div>
 </body>
 </html>
