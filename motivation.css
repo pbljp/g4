@@ -1,20 +1,26 @@
 #graph{
-    background-color:white;
-    display: block;
-    width: 70%;
-    height:90%;
-    margin-left: auto;
-    margin-right: auto;
- }
- #transition{
-    display: flex;
-    justify-content:center;
- }
- #before{
-    padding:10px;
-    color:red;
- }
- #next{
-    padding:10px;
-    color:red;
- }
+   box-shadow: 2px 2px 4px;
+   border-radius: 10px;
+   background-color:white;
+   display: block;
+   width: 70%;
+   height:90%;
+   padding:10px;
+   margin-left: auto;
+   margin-right: auto;
+}
+#transition{
+   display: flex;
+   justify-content:center;
+}
+#before{
+   padding:10px;
+   color:red;
+}
+#next{
+   padding:10px;
+   color:red;
+}
+#url{
+   font-size:20px;
+}

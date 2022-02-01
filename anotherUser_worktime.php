@@ -1,14 +1,8 @@
 <?php
 session_start();
 
+require("to_login.php");
 //2022/01/11 $another_user_id → $login_user_id に変更
-//ログインユーザのIDを取得
-if(isset($_SESSION['user_id'])){
-   //値がセットされていればなにも行わない
-}
-else{
-   exit();
-}
 
 if(!(isset($_SESSION['date']))){
       $today = new DateTime();
@@ -73,7 +67,8 @@ function element($user_id,$end_date, $num){
          WHERE
             (user_id = ?) AND
             (MONTH(start_time)= ?) AND
-            (YEAR(start_time)= ?)
+            (YEAR(start_time)= ?) AND
+            (is_deleted= 0)
          GROUP BY
             DATE(start_time), type_number
          ORDER BY
@@ -163,15 +158,16 @@ const date_title = <?php echo $date_title; ?>;
          <h1>作業時間</h1>
       </div>
    <?php require("header.php");?>
-   <a href="session_delete.php?filename=ranking.php">閲覧リストに戻る</a><br>
    <!--2022/01/11 遷移消去-->
 
    <!--任意の年月へ遷移-->
    <div id="graph">
+   <a id="url" href="default_date.php?filename=ranking.php">ランキングに戻る</a><br> <!--位置変更(2022/01/31)-->
+   <h2 align="center"><?php echo $user_id ?>さんの作業時間</h2> <!--2021/01/31追加-->
    <form action="anotherUser_worktime.php" method="GET">
       <input type="hidden" name="user_id" value=<?php echo $user_id ?>>
       任意の年月を選択：<input type="month" name="date">
-      <input type="submit" name="jump" value="ページに進む">
+      <input class="btn" type="submit" name="jump" value="ページに進む"> <!--classを追加(2022/01/31)-->
    </form>
    <div id="transition">
    <label id="before"><a href="month_transition_anotherUser.php?type=before&user_id=<?php echo $user_id ?>"><span>前の月へ</span><span class="material-icons">navigate_before</span></a>

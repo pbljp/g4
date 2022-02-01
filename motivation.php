@@ -1,6 +1,5 @@
-<?php
 session_start();
-
+require("to_login.php");
 if(isset($_SESSION['date'])){
    $date = $_SESSION['date'];
 }
@@ -10,14 +9,7 @@ else{
    $_SESSION['date']=$date;
 }
 
-
-if(!(isset($_SESSION['user_id']))){
-   $user_id="user_example2";
-   $_SESSION['user_id']=$user_id;
-}
-else{
-   $user_id=$_SESSION['user_id'];
-}
+$user_id=$_SESSION['user_id'];
 
 //任意の年月からの値を取得
 if(isset($_POST['jump'])){
@@ -62,7 +54,8 @@ function element($user_id,$end_date, $num){
          WHERE
             (user_id = ?) AND
             (MONTH(start_time)= ?) AND
-            (YEAR(start_time)= ?)
+            (YEAR(start_time)= ?) AND
+            (is_deleted = 0)
          GROUP BY
             DATE(start_time), type_number
          ORDER BY
@@ -146,12 +139,12 @@ $date=json_encode($date);
    <div id="head">
       <h1>モチベーショングラフ</h1>
    </div>
-   <a href="session_delete.php?filename=homepage.php">ホームページに戻る</a>
    <div id="graph">
+   <a href="default_date.php?filename=homepage.php">ホームページに戻る</a>
    <form action="motivation.php" method="POST">
       <br>
       任意の年月を選択：<input type="month" name="date">
-      <input type="submit" name="jump" value="ページに進む">
+      <input class="btn" type="submit" name="jump" value="ページに進む">
    </form>
    <div id="transition">
    <label id="before">

@@ -1,7 +1,9 @@
 <?php
 session_start();
+require("to_login.php");
 require("get_weekWorktime.php");
-$today= (new DateTime())-> format('2022-1-10');
+$today = (new DateTime())->format('Y-m-d');
+$this_month_endday = (new DateTimeImmutable($today))->modify('last day of')->format('d');//今月の最後の日を格納
 
 if(!(isset($_SESSION['date']))){
    $today = new DateTime();
@@ -19,14 +21,8 @@ else{
 if($_POST['jump']){
    $date = $_POST['date'];
 }
-//2021/12/20追加
-if(!(isset($_SESSION['user_id']))){
-   $user_id="user_example2";
-   $_SESSION['user_id']=$user_id;
-}
-else{
-   $user_id=$_SESSION['user_id'];
-}
+//2022/02/01変更
+$user_id = $_SESSION['user_id'];
 
 $month = (new DateTime($date))->format('m');
 $year = (new DateTime($date))->format('Y');
@@ -150,7 +146,7 @@ $date=json_encode($date);
    <?php require("header.php"); ?>
    <main>
       <div id="head">
-         <h1>勤怠管理システム</h1>
+         <h1>ホームページ</h1>
       </div>
       <!--2022/01/20　ボタンを削除-->
       <!--0128 モチベーション、ランキング遷移ボタン削除-->
@@ -162,18 +158,19 @@ $date=json_encode($date);
                   <?php
                      require("goal_homepage.php");
                   ?>
-                  <p>目標時間：<?php echo $goal_minutes; ?></p>
-                  <p>現在の作業時間：<?php echo $sum_minutes; ?></p>
+                  <p>目標時間：<?php echo $goal_hour.時間.$goal_min.分; ?></p>
+                  <p>現在の作業時間：<?php echo $sum_hour.時間.$sum_min.分; ?></p>
+                  <p><b>達成率：<?php echo $rate_time; ?>%</b></p>
                   <?php
                      require("goal_effect.php");
                   ?>
             </div>
             <div class="goal_list">
                <h3>週平均作業時間</h3>
-               <p>先々週の平均作業時間：<?php echo $before_mean_time; ?></p>
-               <p><?php echo $before_sunday.～.$before_saturday;?></p>
-               <p>先週の現在の作業時間: <?php echo $mean_time; ?></p>
-               <p><?php echo $sunday.～.$saturday; ?></p>
+               <p>先々週：(<?php echo $before_sunday.～.$before_saturday; ?>)</p>
+               <p><?php echo $before_mean_hour.時間.$before_mean_min.分;?></p>
+               <p>先週：(<?php echo $sunday.～.$saturday; ?>)</p>
+               <p><?php echo $mean_hour.時間.$mean_min.分; ?></p>
             </div>
          </div>
 

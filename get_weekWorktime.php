@@ -30,7 +30,8 @@ $sql="SELECT
          work
       WHERE
          (user_id=?) AND
-         (start_time BETWEEN ? AND ?)";
+         (start_time BETWEEN ? AND ?) AND
+         (is_deleted= 0)";
 
 if(($stmt1 = $mysqli->prepare($sql)) && ($stmt2 = $mysqli->prepare($sql))){
    $stmt1->bind_param("sii", $user_id, $sunday, $saturday);
@@ -53,9 +54,12 @@ $mysqli->close();
 
 //先週の平均を算出
 $mean_time = intval($sum_time / 7);
+$mean_hour = intval($mean_time / 60);
+$mean_min = intval($mean_time % 60);
 
 //先々週の平均を算出
 $before_mean_time = intval($before_sum_time / 7);
-
+$before_mean_hour = intval($before_mean_time / 60);
+$before_mean_min = intval($before_mean_time % 60);
 
 ?>

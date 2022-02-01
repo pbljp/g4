@@ -1,20 +1,8 @@
 <?php
 session_start();
 
-if(isset($_SESSION['user_id'])){
-   $user_id = $_SESSION['user_id'];
-}
-else{
-   echo "値がセットされていません";
-}
-
-//dateのセッションをチェック
-if(isset($_SESSION['date'])){
-   //今のところ特になし
-}
-else{
-   //なし
-}
+require("to_login.php");
+$user_id = $_SESSION['user_id'];
 ?>
 
 <!DOCTYPE html>
@@ -32,7 +20,7 @@ else{
          <h1>ランキング</h1>
       </div>
    <!--2022/01/11 遷移先変更-->
-   <a href="session_delete.php?filename=homepage.php">ホームページに戻る</a><br>
+   <a href="default_date.php?filename=homepage.php">ホームページに戻る</a><br>
 
    <!--ランキングテーブル作成-->
    <table>
@@ -42,8 +30,8 @@ else{
 
    <?php
    $rank = 1; //順位
-   $month = (new DateTime('2021-11-01'))->format('m');
-   $year = (new DateTime('2021-11-01'))->format('Y');
+   $month = (new DateTime())->format('m');
+   $year = (new DateTime())->format('Y');
    //ここでデータベース接続
    require("connect_g4_db.php");
    //ユーザごとの今月の作業時間合計を求める(今回は11月だけ)
