@@ -10,15 +10,16 @@ body {
 main{
     display: block;
     /* ヘッダーの幅だけ上にマージンを取る */
-    margin-top: 70px;
+    /* margin-top: 70px; */
     z-index: 0;
 }
 .site-header{
     /* TODO:松本君が用意してくれた画像に置き換える */
-    background:rgb(0, 132, 255);
+    background:rgb(16, 50, 241);
     padding: 0px 0px;
     position: fixed;
-    top: 0;
+    /*top: 0;*/
+    bottom: 0;
     left: 0;
     margin: 0;
     width: 100%;
@@ -40,7 +41,7 @@ main{
     display: block;
     padding: auto;
     /* アイコンの色，何か色を設定しないとクリックした後に色が変わってしまう */
-    color:rgb(0, 0, 0);
+    color:rgb(255, 255, 255);
     font-size: 5px;
     text-align: center;
     text-decoration: none;
@@ -64,7 +65,7 @@ main{
     display: block;
     padding: auto;
     /* アイコンの色，何か色を設定しないとクリックした後に色が変わってしまう */
-    color:rgb(0, 0, 0);
+    color:rgb(255, 255, 255);
     font-size: 5px;
     text-align: center;
     text-decoration: none;
