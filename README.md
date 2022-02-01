@@ -18,7 +18,7 @@ ranking.css：ランキング画面のデザイン<br>
 
 1/7追加分<br>
 popup.php：先週の平均作業時間をポップアップで表示<br>
-session_delete.php：セッション変数を削除<br>
+session_delete.php：セッション変数を削除⇒default_date.phpに変更<br>
 
 1/20追加分<br>
 month_transition.php：先月・来月のデータを処理する<br>
