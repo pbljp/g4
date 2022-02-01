@@ -32,26 +32,31 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>ジャンル名変更-完了</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="header.css">
+    <link rel="stylesheet" href="rename_types.css">
 </head>
 
 <body>
     <?php require("header.php");?>
+    <div id="head">
+            <h1>ジャンル名変更-完了</h1>
+    </div>
     <main>
-        <table border="1"><tr><th>変更後</th><tr>
-            <tr><td>
-            <?php
-                //ジャンル名を列挙
-                foreach ($type_names as $key => $value) {
-                    echo $key."：".$value."<br>";
-                }
-            ?>
-            </td></tr>
-        </table><br>
-
-        <p>
+        <div class="box current">
+            <table border="1"><tr><th>変更後</th><tr>
+                <tr><td>
+                <?php
+                    //ジャンル名を列挙
+                    foreach ($type_names as $key => $value) {
+                        echo $key."：".$value."<br>";
+                    }
+                ?>
+                </td></tr>
+            </table>
             ジャンル名が変更されました．<br>
             <a href="homepage.php">ホームへ戻る</a>
-        </p>
+        </div>
     </main>
 </body>
 </html>

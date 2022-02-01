@@ -110,21 +110,23 @@
 
     <body id="hanabi">
         <?php require("header.php");?>
-        <main id="whole">
+        <main id="">
             <div id="head">
                 <h1>日毎の記録</h1>
             </div>
-            <div id="chart" style="text-align: center; background-color: white; border: solid; padding: 20px 5px;">
+            <div id="chart" class="box" style="">
                 <form action="" method="POST">
-                    <button type="submit" name="date" value="<?php echo $yesterday->format('Y-m-d');?>">
-                        <span class="material-icons-outlined header">today</span>
-                    </button>
-                    <button type="submit" name="date" value="">
-                        <span class="material-icons-outlined header">today</span>
-                    </button>
-                    <button type="submit" name="date" value="<?php echo $tomorrow->format('Y-m-d');?>">
-                        <span class="material-icons-outlined header">today</span>
-                    </button>
+                    <div id="day-button">
+                        <button type="submit" class="btn" name="date" value="<?php echo $yesterday->format('Y-m-d');?>">
+                            <span class="material-icons-outlined header">navigate_before</span>
+                        </button>
+                        <button type="submit" class="btn" name="date" value="">
+                            <span class="material-icons-outlined header">today</span>
+                        </button>
+                        <button type="submit" class="btn" name="date" value="<?php echo $tomorrow->format('Y-m-d');?>">
+                            <span class="material-icons-outlined header">navigate_next</span>
+                        </button>
+                    <div>
                 </form>
                 <div id="container"></div>
                 <form action="" method="POST">
@@ -133,11 +135,11 @@
                     <input type="submit" class="btn" value="グラフ更新"><br>
                 </form>
             </div>
-            <span id="" style="text-align: right; background-color: white;">
+            <div class="" style="text-align: center;">
                 目標作業時間：<?php echo $goal_minutes;?>分<br>
                 この日の作業時間：<?php echo $sum_working_minutes;?>分<br>
                 <b id="goal">目標まであと：<?php echo ($goal_minutes-$sum_working_minutes);?>分です</b>
-            </span>
+            </div>
         </main>
 
         <script>
