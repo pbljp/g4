@@ -11,6 +11,7 @@ main{
     display: block;
     /* ヘッダーの幅だけ上にマージンを取る */
     /* margin-top: 70px; */
+    margin-bottom: 70px;
     z-index: 0;
 }
 .site-header{
