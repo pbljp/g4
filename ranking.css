@@ -1,0 +1,15 @@
+table {
+    background-color:white;
+    width: 802px;
+    margin: 0 auto;
+ }
+ th {
+    padding: 10px;
+    font-size: 30px;
+ }
+ 
+ td {
+    text-align: center;
+    padding: 3px 10px;
+    font-size: 30px;
+ }
