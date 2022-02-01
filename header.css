@@ -60,6 +60,7 @@ main{
 }
 .logout_item{
     padding-left: 20px;
+    color: rgb(255, 255, 255);
 }
 .logout_item a{
     display: block;
