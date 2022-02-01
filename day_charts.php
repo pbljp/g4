@@ -15,6 +15,12 @@
     $month = intval($date->format('m'));
     $day   = intval($date->format('d'));
 
+    //昨日・明日のグラフへ移動する際に使う
+    $yesterday = clone $date;
+    $yesterday->modify('-1 day');
+    $tomorrow = clone $date;
+    $tomorrow->modify('+1 day');
+
     $user_id = $_SESSION['user_id'];
 
     //指定された日付の全部の作業のジャンル番号・開始時間・終了時間を取得
@@ -62,6 +68,7 @@
     if(!isset($goal_minutes)) {
         $goal_minutes = 1441;
     }
+    //作業していない日の合計作業時間は0とする
     if(!isset($sum_working_minutes)){
         $sum_working_minutes = 0;
     }
@@ -74,6 +81,7 @@
     <head>
         <meta charset="UTF-8"/>
         <title>日毎の記録</title>
+        <link rel="stylesheet" href="style.css">
 
         <script type="text/javascript">
             const year  = <?php echo $year;?>;
@@ -87,7 +95,6 @@
             const comment_array = <?php echo $comment_json;?>;
 
             const goal_minutes = <?php echo $goal_minutes;?>;
-            //作業していない日の合計作業時間は0とする
             const sum_working_minutes = <?php echo $sum_working_minutes;?>;
         </script>
 
@@ -103,12 +110,27 @@
 
     <body id="hanabi">
         <?php require("header.php");?>
-        <main style="width: 85%; margin-right: auto; margin-left: auto;">
+        <main id="whole">
+            <div id="head">
+                <h1>日毎の記録</h1>
+            </div>
             <div id="chart" style="text-align: center; background-color: white; border: solid; padding: 20px 5px;">
+                <form action="" method="POST">
+                    <button type="submit" name="date" value="<?php echo $yesterday->format('Y-m-d');?>">
+                        <span class="material-icons-outlined header">today</span>
+                    </button>
+                    <button type="submit" name="date" value="">
+                        <span class="material-icons-outlined header">today</span>
+                    </button>
+                    <button type="submit" name="date" value="<?php echo $tomorrow->format('Y-m-d');?>">
+                        <span class="material-icons-outlined header">today</span>
+                    </button>
+                </form>
                 <div id="container"></div>
                 <form action="" method="POST">
-                    表示する日付：<input type="date" name="date" value="<?php echo $date->format('Y-m-d');?>">&emsp;
-                    <input type="submit" value="グラフ更新"><br>
+                    <span>表示する日付：</span>
+                    <input type="date" name="date" value="<?php echo $date->format('Y-m-d');?>">&emsp;
+                    <input type="submit" class="btn" value="グラフ更新"><br>
                 </form>
             </div>
             <span id="" style="text-align: right; background-color: white;">
