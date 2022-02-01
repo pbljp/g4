@@ -44,3 +44,17 @@
 .highcharts-data-table tr:hover {
     background: #f1f7ff;
 }
+
+.box{
+    box-shadow: 2px 2px 4px;
+    border-radius:10px;
+    background-color: white;
+}
+
+#chart{
+    text-align: center;
+    padding: 20px 5px;
+    width: 90%;
+    margin-right: auto;
+    margin-left:  auto;
+}

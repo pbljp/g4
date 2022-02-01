@@ -1,0 +1,73 @@
+.box{
+    box-shadow: 2px 2px 4px;
+    border-radius:10px;
+    background-color: white;
+    width: auto;
+    margin-bottom: 10px;
+    margin-right: auto;
+    margin-left:  auto;
+    font-size: 25px;
+}
+
+.current{
+    width: fit-content;
+    padding: 20px 50px;
+}
+
+.current table{
+    margin: auto;
+    border: 1px solid;
+    border-radius: 5px;
+}
+
+.current table th{
+    background-color: rgb(209 255 163);
+}
+
+.settings{
+    display: flex;
+    justify-content: center;
+    padding: 0px;
+}
+
+.settings-item{
+    padding: 5px 10px;
+    margin:  5px 20px;
+}
+
+.settings-item-btn{
+    text-align: center;
+}
+
+.underline{
+    text-decoration: underline double red;
+}
+
+main{
+    width: 90%;
+    margin-right: auto;
+    margin-left:  auto;
+}
+
+#type_number{
+    font-size: 25px;
+}
+
+#type_name{
+    font-size: 20px;
+}
+
+#is_public{
+    transform: scale(2.0);
+}
+
+#goal_minutes{
+    font-size: 25px;
+}
+
+#logout-complete{
+    width: 60%;
+    margin-right: auto;
+    margin-left:auto;
+    text-align: center;
+}
