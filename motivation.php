@@ -1,3 +1,4 @@
+<?php
 session_start();
 require("to_login.php");
 if(isset($_SESSION['date'])){

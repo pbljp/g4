@@ -48,7 +48,7 @@ $user_id = $_SESSION['user_id'];
          WHERE
             (MONTH(work.start_time)= ?) AND
             (YEAR(work.start_time)= ?) AND
-            (users.is_public=0) AND
+            (users.is_public=1) AND
             (users.is_deleted=0) AND
             (work.is_deleted=0) AND
             (users.user_id!= ?)
