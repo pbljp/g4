@@ -10,13 +10,13 @@
 <header class="site-header">
         <ul class="menu">
             <li class="menu_item">
-                <a href="homepage.php">
+                <a href="default_date.php?filename=homepage.php">
                     <span class="material-icons-outlined header">stacked_bar_chart</span><br>
                     <span>Home</span>
                 </a>
             </li>
             <li class="menu_item">
-                <a href="motivation.php">
+                <a href="default_date.php?filename=motivation.php">
                     <span class="material-icons-outlined header">insights</span><br>
                     <span>Motivation</span>
                 </a>
@@ -28,7 +28,7 @@
                 </a>
             </li>
             <li class="menu_item">
-                <a href="ranking.php">
+                <a href="default_date.php?filename=ranking.php">
                     <span class="material-icons-outlined header">emoji_events</span><br>
                     <span>Ranking</span>
                 </a>
