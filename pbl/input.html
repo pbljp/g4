@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>入力フォーム</title>
+<link rel="stylesheet" href="style.css">
+<style>
+  form {
+    width: 400px;
+    border: solid 1px black;
+    padding: 10px;
+    margin: 30px auto;
+}
+</style>
+</head>
+
+<body>
+<div id="whole">
+  <div id="head">
+    <h1>項目追加</h1>
+  </div>
+  <button class="btn" onclick="location.href=''">編集</button>
+  <button class="btn" onclick="location.href=''">作業時間を見る</button>
+ <div id="content">
+   <form action="input_do.php" method="post">
+     <div class="box1">
+       <label>ジャンル</label>
+       <select name="genre">
+         <option value="勉強">勉強</option>
+         <option value="バイト">バイト</option>
+         <option value="部活">部活</option>
+        </select>
+        <label>年月日</label>
+        <input type="date" name="date">
+        <label>作業時間</label>
+        <input type="time" name="times">～<input type="time" name="timee">
+        <label>コメント</label>
+        <textarea name="comment" cols="50" rows="10" placeholeder="コメントを入力してください"></textarea>
+        <!-- <input type="file" name="" accept="image/jpeg, image/png, image/gif" multipe> -->
+      </div>
+      <p class="right">
+        <button class="btn" type="reset">クリア</button>
+        <button class="btn" type="submit">登録</button>
+        <!-- <input type="reset" value="クリア">
+          <input type="submit" value="登録"> -->
+        </p>
+      </form>
+    </div>
+</div>
+  </body>
+</html>

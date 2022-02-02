@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>ユーザ登録</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <div id="head">
+    <h1>新規登録</h1>
+  </div>
+  <button class="btn"onclick="location.href='login.php'">ログイン</button>
+
+  <div id="content">
+    <form action="registration_complete.php" method="POST">
+      <table border="1">
+        <tr>
+          <td>ユーザID</td>
+          <td><input type="text" name="user_id" value="" required></td>
+        </tr>
+        <tr>
+          <td>パスワード</td>
+          <td><input type="password" name="password" required></td>
+        </tr>
+        <tr>
+          <td colspan="2" align="center">
+            <!-- <input type="submit" value="登録"> -->
+            <button class="btn" type="submit">登録</button>
+          </td>
+        </tr>
+      </table>
+    </form>
+  </div>
+  </body>
+</html>
