@@ -22,7 +22,7 @@ require('library.php');
             <dl>
                 <dt>ユーザーID</dt>
                 <dd>
-                    <input type="text" name="user_id" size="35" maxlength="255" value="" required/>
+                    <input type="text" pattern="^[0-9A-Za-z]+$" name="user_id" size="35" maxlength="20" value="" required/>
                 </dd>
                 <dt>パスワード</dt>
                 <dd>
