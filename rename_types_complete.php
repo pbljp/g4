@@ -11,7 +11,6 @@
     $sql2 = "UPDATE types SET type_name=?     WHERE user_id=? AND type_number=?";
     if(($stmt = $mysqli->prepare($sql)) && ($stmt2 = $mysqli->prepare($sql2))) {
         $user_id = $_SESSION['user_id'];
-        $user_id = "user_example2"; //デバッグ用
 
         $stmt->bind_param("si", $user_id, $change_type_number);
         $stmt->execute();
