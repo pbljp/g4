@@ -48,7 +48,7 @@ $user_id = $_SESSION['user_id'];
          WHERE
             (MONTH(work.start_time)= ?) AND
             (YEAR(work.start_time)= ?) AND
-            (users.is_public=0) AND
+            (users.is_public=1) AND
             (users.is_deleted=0) AND
             (work.is_deleted=0) AND
             (users.user_id!= ?)
@@ -66,7 +66,7 @@ $user_id = $_SESSION['user_id'];
       echo "DB接続失敗";
    }
 
-   if($stmt->fetch()){
+   while($stmt->fetch()){ //20220203修正
       echo "<tr><td>$rank</td>";
       echo "<td><a href='anotherUser_worktime.php?user_id=$element_id'>$element_id</a></td>";
       echo "<td>$work_time</td></tr>";
