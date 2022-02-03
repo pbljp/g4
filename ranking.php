@@ -66,7 +66,7 @@ $user_id = $_SESSION['user_id'];
       echo "DB接続失敗";
    }
 
-   if($stmt->fetch()){
+   while($stmt->fetch()){ //20220203修正
       echo "<tr><td>$rank</td>";
       echo "<td><a href='anotherUser_worktime.php?user_id=$element_id'>$element_id</a></td>";
       echo "<td>$work_time</td></tr>";
