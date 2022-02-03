@@ -22,11 +22,11 @@ require('library.php');
             <dl>
                 <dt>ユーザーID</dt>
                 <dd>
-                    <input type="text" name="user_id" size="35" maxlength="255" value=""/>
+                    <input type="text" name="user_id" size="35" maxlength="255" value="" required/>
                 </dd>
                 <dt>パスワード</dt>
                 <dd>
-                    <input type="password" name="password" size="35" maxlength="255" value=""/>
+                    <input type="password" name="password" size="35" maxlength="255" value="" required/>
                 </dd>
             </dl>
             <div>
