@@ -20,7 +20,7 @@ $success = $stmt->execute();
 $stmt->bind_result($type_number, $type_name);
 $i=1;
 while ($stmt->fetch()){
-  $genre_nuber[$i] = $type_number;
+  $genre_number[$i] = $type_number;
   $genre[$i] = $type_name;
   echo $genre[$i];
   $i++;
@@ -58,9 +58,9 @@ while ($stmt->fetch()){
      <div class="box1">
        <label class="box2">ジャンル</label>
        <select name="genre">
-         <option value="<?php echo $genre[1]; ?>"><?php echo $genre[1]; ?></option>
-         <option value="<?php echo $genre[2]; ?>"><?php echo $genre[2]; ?></option>
-         <option value="<?php echo $genre[3]; ?>"><?php echo $genre[3]; ?></option>
+         <option value="<?php echo $genre_number[1]; ?>"><?php echo $genre[1]; ?></option>
+         <option value="<?php echo $genre_number[2]; ?>"><?php echo $genre[2]; ?></option>
+         <option value="<?php echo $genre_number[3]; ?>"><?php echo $genre[3]; ?></option>
         </select>
         <label class="box2">年月日</label>
         <input type="date" name="date">

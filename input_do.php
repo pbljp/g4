@@ -11,7 +11,9 @@ if (isset($_SESSION['user_id']) ) {
 //仮ID
 // $user_id = 'user_example2';
 
-$type_name = filter_input(INPUT_POST, 'genre', FILTER_SANITIZE_SPECIAL_CHARS);
+//ジャンルIDをinput.phpから送ってくる
+$type_number = $_POST['genre'];
+//$type_name = filter_input(INPUT_POST, 'genre', FILTER_SANITIZE_SPECIAL_CHARS);
 $date = $_POST['date'];
 $times = $date . ' ' . $_POST['times'];
 $timee = $date . ' ' . $_POST['timee'];
@@ -26,6 +28,7 @@ $comment = filter_input(INPUT_POST, 'comment', FILTER_SANITIZE_SPECIAL_CHARS);
 
 
 //type_numberの取得、オールでいいのか？
+/*
 $db = dbconnect();
 $x = $db->prepare('SELECT type_number FROM types WHERE user_id=? AND type_name=?');
 if (!$x) {
@@ -38,6 +41,7 @@ $x->bind_result($type_number);
 $x->fetch();
 // echo 'type_number=' . $type_number . '<br>';
 //-----------------------------------
+*/
 
 //時間の計算
 $start = strtotime($times);
