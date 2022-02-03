@@ -61,7 +61,8 @@ function element($user_id,$end_date, $num){
          WHERE
             (user_id = ? )AND
             (MONTH(start_time)= ?) AND
-            (YEAR(start_time)= ?)
+            (YEAR(start_time)= ?) AND
+            (is_deleted = 0)
          GROUP BY
             DATE(start_time), type_number
          ORDER BY
