@@ -10,6 +10,7 @@ function dbconnect() {
 	if (!$db) {
 		die($db->error);
 	}
+	$db->set_charset("utf8");
     return $db;
 }
 ?>
