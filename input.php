@@ -22,7 +22,6 @@ $i=1;
 while ($stmt->fetch()){
   $genre_number[$i] = $type_number;
   $genre[$i] = $type_name;
-  echo $genre[$i];
   $i++;
 }
 ?>
