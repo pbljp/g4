@@ -50,8 +50,6 @@ while ($stmt->fetch()){
   <div id="head">
     <h1>項目追加</h1>
   </div>
-  <button class="btn" onclick="location.href=''">編集</button>
-  <button class="btn" onclick="location.href=''">作業時間を見る</button>
  <div id="content">
    <form action="input_do.php" method="post">
      <div class="box1">
