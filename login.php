@@ -24,12 +24,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $stmt->bind_result($user_id, $hash);
         $stmt->fetch();
-        
-        if (password_verify($password, $hash)) {
+
+        $encrypted_password = hash('sha256', $password);
+
+        if ($hash === $encrypted_password) {
             //ログイン成功
             session_regenerate_id();
             $_SESSION['user_id'] = $user_id;
-            header('Location: 00000000');    //リンク先かえる
+            header('Location: homepage.php');    //リンク先かえる
         } else {
             $error['login'] = 'failed';
         }
@@ -37,25 +39,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html lang="ja">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <link rel="stylesheet" type="text/css" href="style.css"/>
-    <title>ログインする</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css"/>
+    <title>ログイン</title>
 </head>
 
 <body>
-<div>
-    <div>
-        <h1>ログインする</h1>
+<div id="whole">
+    <div id="head">
+        <h1>ログイン</h1>
     </div>
-    <div>
+    <div id="content">
         <div>
             <p>IDとパスワードを記入してログインしてください。</p>
             <p>新規登録がまだの方はこちらからどうぞ。</p>
-            <p>&raquo;<a href="registration.html">新規登録をする</a></p>
+            <p>&raquo;<a href="register.php">新規登録をする</a></p>
         </div>
         <form action="" method="post">
             <dl>
@@ -75,7 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </dd>
             </dl>
             <div>
-                <input type="submit" value="ログインする"/>
+                <button class="btn">ログイン</button>
             </div>
         </form>
     </div>
