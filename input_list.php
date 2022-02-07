@@ -82,6 +82,21 @@ if(!$success) {
     <h1>項目追加</h1>
     </div>
     <div id="content">
+     <form action="input_list.php" method="POST">
+               <br>
+               任意の年月を選択 : <input type="month" name="date">
+               <input class="btn" type="submit" name = "jump" value="ページに進む">
+      </form>
+            <!--2022/01/13追加(遷移先変更)-->
+            <div id = "transition">
+               <label id="before">
+                  <a href="month_transition.php?type=before&filename=<?php echo $filename ?>"><span>前の月へ</span><span class="material-icons">navigate_before</span></a>
+               </label>
+               <?php echo $month . '月'; ?>
+               <label id="next">
+                  <a href="month_transition.php?type=next&filename=<?php echo $filename ?>"><span class="material-icons">navigate_next</span><span>次の月ヘ</span></a>
+               </label>
+            </div>
     <?php
     $i=0;
     $stmt->bind_result($work_id, $type_number, $start_time, $finish_time, $working_minutes, $comment, $motivation);
