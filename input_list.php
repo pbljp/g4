@@ -9,6 +9,35 @@ if (isset($_SESSION['user_id'])) {
     exit();
 }
 
+// 追加2/6
+if(!(isset($_SESSION['date']))){
+    $today = (new DateTime())->format('Y-m-d');
+    $month_endday = (new DateTimeImmutable($today))->modify('last day of')->format('y-m-d');//今月の最後の日を格納
+    $month_firstday = (new DateTimeImmutable($today))->modify('first day of')->format('y-m-d');//今月の最初の日を格納    
+    $_SESSION['date']=$todate;
+}
+else{
+    $date = $_SESSION['date'];
+    $month_endday = (new DateTimeImmutable($date))->modify('last day of')->format('y-m-d');//最後の日を格納
+    $month_firstday = (new DateTimeImmutable($date))->modify('first day of')->format('y-m-d');//最初の日を格納    
+}
+
+if( isset($_POST['jump'])){
+    $date = $_POST['date'];
+    $month_endday = (new DateTimeImmutable($date))->modify('last day of')->format('y-m-d');//今月の最後の日を格納
+    $month_firstday = (new DateTimeImmutable($date))->modify('first day of')->format('y-m-d');//今月の最初の日を格納    
+}
+
+//値確認
+echo $month_firstday;
+echo $month_endday;
+
+echo $month_f = strtotime($month_firstday);
+$month_e = strtotime($month_endday);
+
+$month = (new DateTime($date))->format('m');
+//-----------------------
+
 //ジャンルを取り出す
 $db = dbconnect();
         $x = $db->prepare('SELECT type_number, type_name FROM types WHERE user_id=? ');
@@ -24,13 +53,14 @@ $db = dbconnect();
         }
 //-------------------------
 
+//一覧取得
 $db = dbconnect();
-$stmt = $db->prepare('select work_id, type_number, start_time, finish_time, working_minutes, comment, motivation from work where user_id=? order by work_id desc');
+$stmt = $db->prepare('select work_id, type_number, start_time, finish_time, working_minutes, comment, motivation from work where user_id=? (start_time BETWEEN ? AND ?) order by work_id desc');
 if (!$stmt) {
     die($db->error);
 }
 
-$stmt->bind_param('s', $user_id);
+$stmt->bind_param('sii', $user_id, $month_firstday, $month_endday);
 $success = $stmt->execute();
 if(!$success) {
     die($db->error);
