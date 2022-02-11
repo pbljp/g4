@@ -9,7 +9,6 @@ if (isset($_SESSION['user_id'])) {
     exit();
 }
 
-// 追加2/6
 if(!(isset($_SESSION['date']))){
     $today = (new DateTime())->format('Y-m-d');
     $month_endday = (new DateTimeImmutable($today))->modify('last day of')->format('y-m-d');//今月の最後の日を格納
@@ -28,15 +27,13 @@ if( isset($_POST['jump'])){
     $month_firstday = (new DateTimeImmutable($date))->modify('first day of')->format('y-m-d');//今月の最初の日を格納    
 }
 
-//値確認
-echo $month_firstday;
-echo $month_endday;
 
-echo $month_f = strtotime($month_firstday);
 $month_e = strtotime($month_endday);
 
 $month = (new DateTime($date))->format('m');
-//-----------------------
+$filename = basename(__FILE__);
+
+$user_id = 'user_example2';
 
 //ジャンルを取り出す
 $db = dbconnect();
@@ -53,19 +50,19 @@ $db = dbconnect();
         }
 //-------------------------
 
-//一覧取得
 $db = dbconnect();
-$stmt = $db->prepare('select work_id, type_number, start_time, finish_time, working_minutes, comment, motivation from work where user_id=? (start_time BETWEEN ? AND ?) order by work_id desc');
+$stmt = $db->prepare('SELECT work_id, type_number, start_time, finish_time, working_minutes, comment, motivation from work where (user_id=?) AND (start_time BETWEEN ? AND ?) order by work_id desc');
 if (!$stmt) {
     die($db->error);
 }
 
-$stmt->bind_param('sii', $user_id, $month_firstday, $month_endday);
+$stmt->bind_param('sss', $user_id, $month_firstday, $month_endday);
 $success = $stmt->execute();
 if(!$success) {
     die($db->error);
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -73,7 +70,9 @@ if(!$success) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <title>Document</title>
+    <link href="homepage.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <title>リスト</title>
 </head>
 <body>
 <?php require('header.php') ?>
@@ -82,19 +81,18 @@ if(!$success) {
     <h1>項目追加</h1>
     </div>
     <div id="content">
-     <form action="input_list.php" method="POST">
+    <form action="input_list.php" method="POST">
                <br>
                任意の年月を選択 : <input type="month" name="date">
                <input class="btn" type="submit" name = "jump" value="ページに進む">
-      </form>
-            <!--2022/01/13追加(遷移先変更)-->
+            </form>
             <div id = "transition">
                <label id="before">
-                  <a href="month_transition.php?type=before&filename=<?php echo $filename ?>"><span>前の月へ</span><span class="material-icons">navigate_before</span></a>
+                  <a href="list_transition.php?type=before&filename=<?php echo $filename ?>"><span>前の月へ</span><span class="material-icons">navigate_before</span></a>
                </label>
                <?php echo $month . '月'; ?>
                <label id="next">
-                  <a href="month_transition.php?type=next&filename=<?php echo $filename ?>"><span class="material-icons">navigate_next</span><span>次の月ヘ</span></a>
+                  <a href="list_transition.php?type=next&filename=<?php echo $filename ?>"><span class="material-icons">navigate_next</span><span>次の月ヘ</span></a>
                </label>
             </div>
     <?php
