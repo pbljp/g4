@@ -33,8 +33,6 @@ $month_e = strtotime($month_endday);
 $month = (new DateTime($date))->format('m');
 $filename = basename(__FILE__);
 
-$user_id = 'user_example2';
-
 //ジャンルを取り出す
 $db = dbconnect();
         $x = $db->prepare('SELECT type_number, type_name FROM types WHERE user_id=? ');
