@@ -26,6 +26,6 @@ if((isset($_SESSION['date'])) && (isset($_GET['type'])) && (isset($_GET['filenam
 }
 else{
    echo "エラーが発生したためホームページに戻ります。<br>";
-   echo "<a href='input_list.php'>ホームページに戻る</a>";
+   echo "<a href='homepage.php'>ホームページに戻る</a>";
 }
 ?>
