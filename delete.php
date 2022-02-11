@@ -2,12 +2,15 @@
 session_start();
 require('library.php');
 
-if (isset($_SESSION['user_id'])) {
-    $user_id = $_SESSION['user_id'];
-} else {
-    header('Location: login.php');
-    exit();
-}
+// if (isset($_SESSION['id']) && isset($_SESSION['name'])) {
+//     $id = $_SESSION['id'];
+//     $name = $_SESSION['name'];
+// } else {
+//     header('Location: login.php');
+//     exit();
+// }
+
+$user_id = 'user_example2';
 
 $work_id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
 if (!$work_id) {
