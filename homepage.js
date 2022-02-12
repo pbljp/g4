@@ -4,8 +4,6 @@ window.onload = function (){
     var today = new Date();
     const end_day = new Date(today.getFullYear(), today.getMonth()+1, 0);
     var tomorrow = end_day.toLocaleString();
-    const end_date = end_day.getDate();//11月の月末日を取得
-
     var cnt = 1;
     for (var i =1; i<=end_date; i++){
        array.push(i);
@@ -20,7 +18,6 @@ var today = new Date();
 //日にちの表示バグを修正(2022/01/0102)
 const end_day = new Date(today.getFullYear(), today.getMonth()+1, 0);
 var tomorrow = end_day.toLocaleString();
-const end_date = end_day.getDate();//11月の月末日を取得
 
 var cnt = 1;
 for (var i =1; i<=end_date; i++){

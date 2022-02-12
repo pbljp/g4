@@ -134,6 +134,7 @@ $junre1=json_encode($j1);
 $junre2=json_encode($j2);
 $junre3=json_encode($j3);
 $date=json_encode($date);
+$end_date= json_encode($end_date);
 ?>
 
 <!--グラフ表示-->
@@ -146,6 +147,7 @@ const j1_name = <?php echo $j1_name; ?>;
 const j2_name = <?php echo $j2_name; ?>;
 const j3_name = <?php echo $j3_name; ?>;
 const date_title = <?php echo $date_title; ?>;
+const end_date = <?php echo $end_date; ?>;
 </script>
 <script src="homepage.js"></script>
 
@@ -167,7 +169,7 @@ const date_title = <?php echo $date_title; ?>;
    <form action="anotherUser_worktime.php" method="GET">
       <input type="hidden" name="user_id" value=<?php echo $user_id ?>>
       任意の年月を選択：<input type="month" name="date">
-      <input class="btn" type="submit" name="jump" value="ページに進む"> <!--classを追加(2022/01/31)-->
+      <input class="btn" type="submit" name="jump" value="ページに進む"> <!--class を追加(2022/01/31)-->
    </form>
    <div id="transition">
    <label id="before"><a href="month_transition_anotherUser.php?type=before&user_id=<?php echo $user_id ?>"><span>前の月へ</span><span class="material-icons">navigate_before</span></a>
