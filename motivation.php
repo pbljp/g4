@@ -118,6 +118,7 @@ $j1_name = json_encode($type_names[1]);
 $j2_name = json_encode($type_names[2]);
 $j3_name = json_encode($type_names[3]);
 $date=json_encode($date);
+$end_date= json_encode($end_date);
 ?>
 
 <!--グラフ表示-->
@@ -130,6 +131,7 @@ $date=json_encode($date);
    const j2_name = <?php echo $j2_name; ?>;
    const j3_name = <?php echo $j3_name; ?>;
    const date_title = <?php echo $date_title; ?>;
+   const end_date = <?php echo $end_date; ?>;
 </script>
 <script src="motivation.js"></script>
 </head>
