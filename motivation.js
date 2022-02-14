@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', function () {
         },
 
         subtitle: {
-            text: 'Source: thesolarfoundation.com'
+            text: ''
         },
 
         yAxis: [{
