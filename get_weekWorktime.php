@@ -1,5 +1,4 @@
 <?php
-
 session_start();
 
 $user_id = $_SESSION['user_id'];
@@ -19,7 +18,7 @@ $sunday = (new DateTimeImmutable($before_weekday)) -> modify("-$minus days") -> 
 $saturday = (new DateTimeImmutable($before_weekday)) -> modify("+$plus days") -> format('Y-m-d');//先週の土曜日の日にち
 
 //2週間前の土日の日付を取得
-$before_sunday = (new DateTimeImmutable($two_week_before)) -> modify("-$minus days") -> format('Y-m-d');//2週間前の日曜日の日にち
+$before_sunday = (new DateTimeImmutable($two_week_before)) -> modify("-$minus days") -> format('Y-m-d');//2週間前の日曜 日の日にち
 $before_saturday = (new DateTimeImmutable($two_week_before)) -> modify("+$plus days") -> format('Y-m-d');//2週間前の土曜日の日にち
 
 //データベース接続
@@ -30,17 +29,17 @@ $sql="SELECT
          work
       WHERE
          (user_id=?) AND
-         (start_time BETWEEN ? AND ?) AND
+         (date(start_time) BETWEEN ? AND ?) AND
          (is_deleted= 0)";
 
 if(($stmt1 = $mysqli->prepare($sql)) && ($stmt2 = $mysqli->prepare($sql))){
-   $stmt1->bind_param("sii", $user_id, $sunday, $saturday);
+   $stmt1->bind_param("sss", $user_id, $sunday, $saturday);
    $stmt1->execute();
    $stmt1->bind_result($sum_time);
    $stmt1->fetch();
    $stmt1->close();
 
-   $stmt2->bind_param("sii", $user_id, $before_sunday, $before_saturday);
+   $stmt2->bind_param("sss", $user_id, $before_sunday, $before_saturday);
    $stmt2->execute();
    $stmt2->bind_result($before_sum_time);
    $stmt2->fetch();

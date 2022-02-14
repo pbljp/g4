@@ -58,7 +58,7 @@ $user_id = $_SESSION['user_id'];
    <!--ランキングテーブル作成-->
    <table>
       <tr>
-         <th>順位</th><th>ユーザ名</th><th>作業合計時間(分)</th>
+         <th>順位</th><th>ユーザ名</th><th>合計作業時間(分)</th>
       </tr>
       </div>
    <?php

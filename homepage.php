@@ -169,7 +169,7 @@ $end_date = json_encode($end_date); //2022/02/12追加
                   ?>
             </div>
             <div class="goal_list">
-               <h3>週平均作業時間</h3>
+               <h3>1日の平均作業時間</h3>
                <p>先々週：(<?php echo $before_sunday.～.$before_saturday; ?>)</p>
                <p><?php echo $before_mean_hour.時間.$before_mean_min.分;?></p>
                <p>先週：(<?php echo $sunday.～.$saturday; ?>)</p>
