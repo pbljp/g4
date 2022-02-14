@@ -11,24 +11,24 @@ if (isset($_SESSION['user_id'])) {
 
 if(!(isset($_SESSION['date']))){
     $today = (new DateTime())->format('Y-m-d');
-    $month_endday = (new DateTimeImmutable($today))->modify('last day of')->format('y-m-d');//今月の最後の日を格納
+    $month_endday = (new DateTimeImmutable($today))->modify("+1 months")->format('Y-m-d');
+    $month_endday = (new DateTimeImmutable($month_endday))->modify('first day of')->format('y-m-d');//来月の最初の日を格納
     $month_firstday = (new DateTimeImmutable($today))->modify('first day of')->format('y-m-d');//今月の最初の日を格納    
-    $_SESSION['date']=$todate;
+    $_SESSION['date']=$today;
 }
 else{
     $date = $_SESSION['date'];
-    $month_endday = (new DateTimeImmutable($date))->modify('last day of')->format('y-m-d');//最後の日を格納
+    $month_endday = (new DateTimeImmutable($date))->modify("+1 months")->format('Y-m-d');
+    $month_endday = (new DateTimeImmutable($month_endday))->modify('first day of')->format('y-m-d');//来月の最初の日を格納
     $month_firstday = (new DateTimeImmutable($date))->modify('first day of')->format('y-m-d');//最初の日を格納    
 }
 
 if( isset($_POST['jump'])){
     $date = $_POST['date'];
-    $month_endday = (new DateTimeImmutable($date))->modify('last day of')->format('y-m-d');//今月の最後の日を格納
+    $month_endday = (new DateTimeImmutable($date))->modify("+1 months")->format('Y-m-d');
+    $month_endday = (new DateTimeImmutable($month_endday))->modify('first day of')->format('y-m-d');//来月の最初の日を格納
     $month_firstday = (new DateTimeImmutable($date))->modify('first day of')->format('y-m-d');//今月の最初の日を格納    
 }
-
-
-$month_e = strtotime($month_endday);
 
 $month = (new DateTime($date))->format('m');
 $filename = basename(__FILE__);
