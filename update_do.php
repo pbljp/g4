@@ -1,14 +1,13 @@
 <?php
 require('library.php');
 
-// if (isset($_SESSION['user_id'])) {
-//     $user_id = $_SESSION['user_id'];
-// } else {
-//     header('Location: login.php');
-//     exit();
-// }
+if (isset($_SESSION['user_id'])) {
+    $user_id = $_SESSION['user_id'];
+} else {
+    header('Location: index.php');
+    exit();
+}
 
-$user_id = 'user_example2';
 
 $work_id = filter_input(INPUT_POST, 'work_id', FILTER_SANITIZE_NUMBER_INT);
 $type_name = filter_input(INPUT_POST, 'genre', FILTER_SANITIZE_SPECIAL_CHARS);
