@@ -2,7 +2,7 @@
     session_start();
     $_SESSION = array();
 
-    header("refresh:5;url=login.php");
+    header("refresh:5;url=index.php");
 ?>
 
 <!DOCTYPE html>
