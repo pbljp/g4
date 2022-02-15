@@ -1,13 +1,12 @@
 <?php
 require('library.php');
-// if (isset($_SESSION['user_id'])) {
-//     $user_id = $_SESSION['user_id'];
-// } else {
-//     header('Location: login.php');
-//     exit();
-// }
+if (isset($_SESSION['user_id'])) {
+    $user_id = $_SESSION['user_id'];
+} else {
+    header('Location: index.php');
+    exit();
+}
 
-$user_id = 'user_example2';
 
 //ジャンル取得
 $db = dbconnect();
