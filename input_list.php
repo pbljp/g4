@@ -5,7 +5,7 @@ require('library.php');
 if (isset($_SESSION['user_id'])) {
     $user_id = $_SESSION['user_id'];
 } else {
-    header('Location: login.php');
+    header('Location: index.php');
     exit();
 }
 
@@ -105,7 +105,13 @@ if(!$success) {
         ジャンル : <?php echo h($genre[$type_number]); ?> <br>
         日時 : <?php echo h($start_time); ?> ~ <?php echo h($finish_time); ?><br>
         作業時間 : <?php echo h($working_minutes); ?> 分<br>
-        モチベーション : <?php echo h($motivation); ?>    
+        モチベーション : <?php echo h($motivation); ?> <br>
+        コメント :
+        <?php if ($comment === ""): ?>
+            なし <br>
+        <?php else: ?>
+        <a href="comment.php?id=<?php echo h($work_id)?>"><?php echo h(mb_substr($comment, 0, 20)); ?></a><br>
+        <?php endif; ?>
         [<a href="update.php?id=<?php echo h($work_id); ?>">変更</a>]
         [<a href="delete.php?id=<?php echo h($work_id); ?>" style="color: #F33;">削除</a>]
         </p>
