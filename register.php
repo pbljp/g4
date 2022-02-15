@@ -15,7 +15,7 @@ require('library.php');
     <div id="head">
         <h1>新規登録</h1>
     </div>
-    <button class="btn" onclick="location.href='login.php'">ログイン</button>
+    <button class="btn" onclick="location.href='index.php'">ログイン</button>
     
     <div id="content">
         <form action="registration_complete.php" method="POST">
