@@ -7,6 +7,6 @@
 
 <body align = "center">
   <h2>ユーザ登録完了</h2><br>
-  <a href="login.php">ログイン画面へ戻る</a>
+  <a href="index.php">ログイン画面へ戻る</a>
 </body>
 </html>

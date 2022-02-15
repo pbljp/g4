@@ -51,7 +51,7 @@
       </p>
       <br>
       <p>
-        &raquo<a href="login.php">ログイン画面へ</a>
+        &raquo<a href="index.php">ログイン画面へ</a>
       </p>
     </div>
   </div>
