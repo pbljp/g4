@@ -52,13 +52,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
 <div id="whole">
     <div id="head">
-        <h1>ログイン</h1>
+        <h1>Act-Log ログイン</h1>
     </div>
     <div id="content">
         <div>
             <p>IDとパスワードを記入してログインしてください。</p>
             <p>新規登録がまだの方はこちらからどうぞ。</p>
             <p>&raquo;<a href="register.php">新規登録をする</a></p>
+            <p>お試しの際には、デモユーザをご利用ください。<br>ユーザーID:demo1<br>パスワード:demo1</p>
         </div>
         <form action="" method="post">
             <dl>
@@ -81,6 +82,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <button class="btn">ログイン</button>
             </div>
         </form>
+        <p>
+            <img src="Introduction.jpg" width="640px" height="360px">
+            <img src="HowTo.jpg" width="640px" height="360px">
+        </p>
     </div>
 </div>
 </body>
